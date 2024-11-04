@@ -75,7 +75,7 @@ const Signup =() =>{
                rounded-md
                 focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="Nhập họ và tên của bạn" required/>
-                {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+                {errors.name &&formResgister.name!=0 && <p className="text-red-500 text-sm">{errors.name}</p>}
             </div>
 
             <div className="mb-4">
@@ -86,7 +86,7 @@ const Signup =() =>{
                rounded-md
                 focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="Nhập số điện thoại" required/>
-                {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
+                {errors.phoneNumber &&formResgister.phoneNumber!=0 && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
             </div>
 
             <div className="mb-4">
@@ -97,7 +97,7 @@ const Signup =() =>{
                rounded-md
                 focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="Nhập email của bạn" required/>
-              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+              {errors.email &&formResgister.email!=0 && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
 
             <div className="mb-6">
@@ -121,7 +121,7 @@ const Signup =() =>{
           </form>
           <p className="mt-4 text-sm text-center text-gray-600">
             Đã có tài khoản?  
-            <Link to="auth/login" className="text-blue-500 hover:underline"> Đăng nhập</Link>
+            <Link to="/auth/login" className="text-blue-500 hover:underline"> Đăng nhập</Link>
           </p>
         </div>
       </div>

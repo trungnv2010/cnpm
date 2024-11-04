@@ -41,7 +41,6 @@ const Login =() =>{
         [name]: errorMessage
       });
 
-      console.log(formLogin)
   }
 
 
@@ -62,7 +61,7 @@ const Login =() =>{
              rounded-md
               focus:outline-none focus:ring-2 focus:ring-blue-500`}
               placeholder="Nhập email của bạn" required/>
-            {errorMessage.email && (
+            {errorMessage.email&&formLogin.email!=0 && (
               <p className="mt-1 text-sm text-red-500">{errorMessage.email}</p>
             )}
           </div>
@@ -70,6 +69,7 @@ const Login =() =>{
             <label for="password" className="block text-sm font-medium text-gray-600">Mật khẩu</label>
             <input type="password" onChange={handleChange} id="password" name="password" className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nhập mật khẩu của bạn" required/>
           </div>
+          
           <button type="submit" 
             disabled={isSubmitDisabled}
             className={`w-full px-4 py-2 font-semibold text-white rounded-md
@@ -82,8 +82,13 @@ const Login =() =>{
           Chưa có tài khoản?
           <Link to="/auth/signup" className="text-blue-500 hover:underline"> Đăng ký</Link>
         </p>
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Quên mật khẩu?
+          <Link to="/auth/resetpassword" className="text-blue-500 hover:underline"> Đặt lại mật khẩu</Link>
+        </p>
       </div>
     </div>
   </>)
 }
 export default Login
+
