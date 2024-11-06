@@ -39,8 +39,7 @@ const SendOTP=()=>{
         if (index > 0) {
             inputRefs.current[index - 1].focus();
         }
-        // Xóa phần tử cuối cùng của mảng OTP
-        // setOTP((prevItems) => prevItems.slice(0, -1));
+
     }
     if(OTP.length>=1&&index==0){setOTP((prevItems) => prevItems.slice(0, -1));}
   };
@@ -67,7 +66,6 @@ const SendOTP=()=>{
                   focus:outline-none  `}>
                   Gửi mã OTP
                 </button>
-                <p>{console.log(OTP)}</p>
             </div>
           </div>
         </>)

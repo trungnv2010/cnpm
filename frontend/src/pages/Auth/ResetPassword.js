@@ -1,5 +1,4 @@
 import { useState } from "react";
-import {Link} from "react-router-dom";
 import React from "react";
 
 import { regexPatterns } from "./validationPartten";
@@ -25,8 +24,8 @@ const ResetPassword=()=>{
         <>
           <div className="flex items-center justify-center min-h-screen bg-gray-300">
             <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
-              <h2 className="text-3xl font-semibold  text-gray-700 mb-1">Quên mật khẩu</h2>
-              <p className="text-xs text-gray-400 mb-4 ">Vui lòng nhập email của bạn. Chúng tôi sẽ gửi mã OTP vào email của bạn( <span className="text-xs text-black">admin@gmail.com</span>)</p>
+              <h2 className="mb-1 text-3xl font-semibold text-gray-700">Quên mật khẩu</h2>
+              <p className="mb-4 text-xs text-gray-400 ">Vui lòng nhập email của bạn. Chúng tôi sẽ gửi mã OTP vào email của bạn( <span className="text-xs text-black">admin@gmail.com</span>)</p>
               <form action="#" method="POST">
                 <div className="mb-4">
                   <label for="email" className="block text-sm font-medium text-gray-600">Email</label>
@@ -38,8 +37,8 @@ const ResetPassword=()=>{
                     focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     placeholder="Nhập email của bạn" required/>
                 </div>
-                {errorMessage&&email.length!=0 && (
-              <p className=" text-sm text-red-500 mb-1">{errorMessage}</p>
+                {errorMessage&&email.length!==0 && (
+              <p className="mb-1 text-sm text-red-500 ">{errorMessage}</p>
             )}
 
                 <button type="submit" 
