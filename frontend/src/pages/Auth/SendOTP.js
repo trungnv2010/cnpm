@@ -59,7 +59,7 @@ const SendOTP = () => {
       }
 
     }
-    if (OTP.length >= 1 && index == 0) { setOTP((prevItems) => prevItems.slice(0, -1)); }
+    if (OTP.length >= 1 && index === 0) { setOTP((prevItems) => prevItems.slice(0, -1)); }
   };
 
   const handleClick = async () => {
@@ -67,15 +67,15 @@ const SendOTP = () => {
       if (type === "signUp"){
         let response = ""
         response = await register({name, email, password})
-        // // if (response.code === '200') {
-        // //   navigate('/notification',
-        // //     {
-        // //       state:
-        // //       {
-        // //         title: ""
-        // //       }
-        // //     })
-        // }
+        // if (response.code === '200') {
+        //   navigate('/notification',
+        //     {
+        //       state:
+        //       {
+        //         title: ""
+        //       }
+        //     })
+        //  }
       }
     }
     

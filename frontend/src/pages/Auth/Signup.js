@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "@/service";
 import { regexPatterns } from "./validationPartten";
 import { useDispatch } from "react-redux";
-import { userLogin } from "@/store";
 import React from "react";
+
+import { Notification } from "../../components";
 
 
 
@@ -58,7 +58,6 @@ const Signup = () => {
       ...errors,
       [name]: errorMessage
     });
-
   }
 
   const handleSubmit = () => {
@@ -75,12 +74,12 @@ const Signup = () => {
 
   }
 
-  useEffect(() => {
+  useEffect(()=>{
+  })
 
 
-  }, [])
-
-  const isSubmitDisabled = formResgister.email.length === 0 || formResgister.password.length === 0 || formResgister.name.length === 0 || formResgister.phoneNumber === 0 || formResgister.repeatPassword.length === 0;
+  const isStillError=Object.values(errors).some(value => value !== '')
+  let isSubmitDisabled =(isStillError|| (formResgister.email.length === 0 || formResgister.password.length === 0 || formResgister.name.length === 0 || formResgister.phoneNumber === 0 || formResgister.repeatPassword.length === 0));
 
   return (
     <>
@@ -96,7 +95,7 @@ const Signup = () => {
                rounded-md
                 focus:outline-none focus:ring-2 focus:ring-blue-500`}
               placeholder="Nhập họ và tên của bạn" required />
-            {errors.name && formResgister.name != 0 && <p className="text-sm text-red-500">{errors.name}</p>}
+            {errors.name && formResgister.name !== 0 && <p className="text-sm text-red-500">{errors.name}</p>}
           </div>
 
           {/* <div className="mb-4">
@@ -118,7 +117,7 @@ const Signup = () => {
                rounded-md
                 focus:outline-none focus:ring-2 focus:ring-blue-500`}
               placeholder="Nhập email của bạn" required />
-            {errors.email && formResgister.email != 0 && <p className="text-sm text-red-500">{errors.email}</p>}
+            {errors.email && formResgister.email !== 0 && <p className="text-sm text-red-500">{errors.email}</p>}
           </div>
 
           <div className="mb-6">
@@ -147,6 +146,7 @@ const Signup = () => {
           </p>
         </div>
       </div>
+      <Notification/>
     </>)
 }
 export default Signup

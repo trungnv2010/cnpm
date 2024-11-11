@@ -10,3 +10,6 @@ export {default as Navbar} from './navbar/Navbar'
 
 // Products
 export {default as Products} from './products/Product'
+
+//Noti
+export {default as Notification }from './notification/Notification'
