@@ -11,6 +11,7 @@ Route::post('/send-otp', [AuthController::class, 'sendOtp']);
 Route::post('/change-password', [AuthController::class, 'changePassword'])->middleware('auth:sanctum');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::get('/check-email', [AuthController::class, 'checkEmail']);
 
 Route::get('/admin/settings', function () {
     return "admin";
