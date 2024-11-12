@@ -5,11 +5,15 @@ import { regexPatterns } from "./validationPartten";
 import { useDispatch } from "react-redux";
 import { userLogin } from "@/store";
 
+import React from "react";
+
 const Login = () => {
   const [login, { data, isSuccess, isError, isLoading, error }] =
     useLoginMutation();
+    
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
   const [formLogin, setFormLogin] = useState({
     email: "",
     password: "",
@@ -19,6 +23,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+
 
   const validateRegister = (type, value) => {
     switch (type) {
@@ -41,12 +46,16 @@ const Login = () => {
     }
   }, [isSuccess, data]);
 
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormLogin({
       ...formLogin,
       [name]: value,
     });
+    
+
 
     const message = validateRegister(name, value);
     setErrorMessage({
@@ -141,5 +150,6 @@ const Login = () => {
     </div>
   );
 };
+
 
 export default Login;

@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { regexPatterns } from "./validationPartten";
 import { useDispatch } from "react-redux";
+
+import { useCheckEmailQuery } from "@/service";
+
 import React from "react";
 
 import { Notification } from "../../components";
@@ -11,6 +14,7 @@ import { Notification } from "../../components";
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [formResgister, setFormRegister] = useState(
     {
       name: '',
@@ -20,6 +24,9 @@ const Signup = () => {
     }
   )
 
+  const { data, isSuccess, isError, isLoading, error } = useCheckEmailQuery({ email:formResgister.email});
+
+
 
   const [errors, setErrors] = useState({
     name: '',
@@ -27,6 +34,12 @@ const Signup = () => {
     password: '',
     repeatPassword: ''
   });
+
+  const [showNotification,setShowNotification]=useState(false)
+  const handleShowNotification=()=>{
+    setShowNotification(true)
+  }
+
 
 
   const validateRegister = (type, value) => {
@@ -61,20 +74,26 @@ const Signup = () => {
   }
 
   const handleSubmit = () => {
-    navigate('/auth/SendOTP',
-      {
-        state:
+    if(isSuccess){
+      navigate('/auth/SendOTP',
         {
-          email: formResgister.email,
-          name: formResgister.name,
-          password : formResgister.password,
-          type: 'signUp'
-        }
-      })
+          state:
+          {
+            email: formResgister.email,
+            name: formResgister.name,
+            password : formResgister.password,
+            type: 'signUp'
+          }
+        })
+      }else{
+        console.log(error)
+      }
 
   }
 
   useEffect(()=>{
+    console.log(formResgister.email)
+    console.log(error)
   })
 
 
@@ -146,7 +165,6 @@ const Signup = () => {
           </p>
         </div>
       </div>
-      <Notification/>
     </>)
 }
 export default Signup

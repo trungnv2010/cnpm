@@ -32,7 +32,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Unauthorized'], 401);
+        return response()->json(['message' => 'Unauthorized', 'code' => '401'], 401);
     }
 
 
@@ -46,7 +46,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['errors' => $validator->errors(), 'code' => '422'], 422);
         }
 
         $user = User::create([
@@ -60,6 +60,8 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
+            'code' => '200',
+            'message' => 'Đăng ký thành công',
             'access_token' => $token,
             'token_type' => 'Bearer',
             'user' => $user
@@ -67,14 +69,14 @@ class AuthController extends Controller
     }
     public function sendOtp(Request $request)
     {
-         // Xác thực dữ liệu đầu vào
-         $validator = Validator::make($request->all(), [
+        // Xác thực dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'otp' => 'required|digits:6', // Yêu cầu OTP phải là 6 chữ số
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['errors' => $validator->errors(), 'code' => '422'], 422);
         }
 
         // Xóa mã OTP cũ nếu tồn tại cho email này
@@ -90,7 +92,7 @@ class AuthController extends Controller
         // Gửi mã OTP qua email
         Mail::to($request->email)->send(new OtpMail($request->otp));
 
-        return response()->json(['message' => 'OTP code has been sent to your email.']);
+        return response()->json(['message' => 'OTP code has been sent to your email.', 'code' => '200']);
     }
     public function changePassword(Request $request)
     {
@@ -108,13 +110,32 @@ class AuthController extends Controller
 
         // Kiểm tra mật khẩu hiện tại có khớp với mật khẩu đã lưu trong cơ sở dữ liệu không
         if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json(['error' => 'Mật khẩu hiện tại không chính xác'], 403);
+            return response()->json(['error' => 'Mật khẩu hiện tại không chính xác', 'code' => '403'], 403);
         }
 
         // Cập nhật mật khẩu mới
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return response()->json(['message' => 'Đổi mật khẩu thành công']);
+        return response()->json(['message' => 'Đổi mật khẩu thành công', 'code' => '200']);
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+        $emailExits = User::where('email', $request->email)->exists();
+        if ($emailExits) {
+            return response()->json([
+                'message' => 'Email đã tồn tại',
+                'code' => '403'
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Email chưa tồn tại',
+                'code' => '200'
+            ]);
+        }
     }
 }
