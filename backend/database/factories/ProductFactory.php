@@ -20,12 +20,12 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->words(3, true),
-            'description' => $this->faker->sentence,
-            'price' => $this->faker->randomFloat(2, 10, 500),
-            'quantity' => $this->faker->numberBetween(1, 100),
-            'category_id' => Category::inRandomOrder()->first()->id,
-            'image_path' => 'images/sample.jpg',
+            'name' => $this->faker->word(), // Tên sản phẩm giả
+            'description' => $this->faker->sentence(), // Mô tả ngắn gọn
+            'price' => $this->faker->randomFloat(2, 10, 500), // Giá sản phẩm từ 10 đến 500
+            'quantity' => $this->faker->numberBetween(1, 100), // Số lượng ngẫu nhiên từ 1 đến 100
+           'category_id' => Category::inRandomOrder()->first()->id, // tạo category giả nếu chưa có
+            'image_path' => $this->faker->imageUrl(640, 480, 'products', true), // Đường dẫn ảnh ngẫu nhiên
         ];
     }
 }
