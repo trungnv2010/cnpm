@@ -7,7 +7,6 @@ const apiSlice = createApi({
     baseUrl: process.env.REACT_APP_API_URL,
     prepareHeaders: (headers) => {
       const token = process.env.REACT_APP_KEY;
-      console.log(token)
       if (token) headers.set("X-API-KEY", token);
       return headers;
     },

@@ -21,6 +21,7 @@ class CheckRole
         if (!$user) {
             return response()->json([
                 'error' => 'Unauthorized: Token is invalid or has expired.',
+                'code' => '401'
             ], 401);
         }
 

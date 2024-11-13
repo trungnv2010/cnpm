@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { regexPatterns } from "./validationPartten";
 import { useDispatch } from "react-redux";
 
-import { useCheckEmailQuery } from "@/service";
+import { useCheckEmailMutation } from "@/service";
 
 import React from "react";
 
@@ -24,7 +24,7 @@ const Signup = () => {
     }
   )
 
-  const { data, isSuccess, isError, isLoading, error } = useCheckEmailQuery({ email:formResgister.email});
+  const [checkEmail, { isSuccess, error }] = useCheckEmailMutation();
 
 
 
@@ -35,8 +35,8 @@ const Signup = () => {
     repeatPassword: ''
   });
 
-  const [showNotification,setShowNotification]=useState(false)
-  const handleShowNotification=()=>{
+  const [showNotification, setShowNotification] = useState(false)
+  const handleShowNotification = () => {
     setShowNotification(true)
   }
 
@@ -73,33 +73,46 @@ const Signup = () => {
     });
   }
 
+  useEffect(() => {
+    const checkEmailExits = async () => {
+      if (errors.email === "" && formResgister.email !== "") {
+        const res = await checkEmail({ email: formResgister.email })
+        if (res.data.code !== '200') {
+          setErrors({
+            ...errors,
+            'email': res.data.message
+          });
+        }
+      
+      }
+    }
+    checkEmailExits()
+  }, [formResgister.email]);
+
   const handleSubmit = () => {
-    if(isSuccess){
+    if (isSuccess) {
       navigate('/auth/SendOTP',
         {
           state:
           {
             email: formResgister.email,
             name: formResgister.name,
-            password : formResgister.password,
+            password: formResgister.password,
             type: 'signUp'
           }
         })
-      }else{
-        console.log(error)
-      }
+    } else {
+      console.log(error)
+    }
 
   }
 
-  useEffect(()=>{
-    console.log(formResgister.email)
-    console.log(error)
-    console.log(data)
-  })
 
 
-  const isStillError=Object.values(errors).some(value => value !== '')
-  let isSubmitDisabled =(isStillError|| (formResgister.email.length === 0 || formResgister.password.length === 0 || formResgister.name.length === 0 || formResgister.phoneNumber === 0 || formResgister.repeatPassword.length === 0));
+
+  const isStillError = Object.values(errors).some(value => value !== '')
+
+  let isSubmitDisabled = (isStillError || (formResgister.email.length === 0 || formResgister.password.length === 0 || formResgister.name.length === 0 || formResgister.repeatPassword.length === 0));
 
   return (
     <>

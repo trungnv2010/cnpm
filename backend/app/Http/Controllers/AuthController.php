@@ -42,7 +42,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'in:admin,user,collaborator'
+            'role_id' => '3'
         ]);
 
         if ($validator->fails()) {
@@ -53,7 +53,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role ?? 'user',
+            'role_id' => $request->role_id ?? '3',
         ]);
 
 
@@ -92,7 +92,7 @@ class AuthController extends Controller
         // Gửi mã OTP qua email
         Mail::to($request->email)->send(new OtpMail($request->otp));
 
-        return response()->json(['message' => 'OTP code has been sent to your email.', 'code' => '200']);
+        return response()->json(['message' => 'OTP đã gửi về email của bạn.', 'code' => '200']);
     }
     public function changePassword(Request $request)
     {

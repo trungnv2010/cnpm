@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSendOtpApiMutation, useRegisterMutation } from '@/service'
+import { Popup } from "@/components";
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const SendOTP = () => {
@@ -12,11 +14,12 @@ const SendOTP = () => {
   const { email, type, name, password } = location.state || {};
   const [message, setMessage] = useState(null)
   const [sendOTP, setSendOTP] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const [register] = useRegisterMutation()
   const [sendOtpApi] = useSendOtpApiMutation();
 
 
-  
+
   const handleOTP = (e) => {
     const newArr = [...OTP]
     newArr.push(e.target.value)
@@ -28,6 +31,10 @@ const SendOTP = () => {
   const generateOtp = () => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     return otp.toString();
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
   };
 
   // Hàm xử lý khi người dùng nhập vào ô
@@ -63,22 +70,16 @@ const SendOTP = () => {
   };
 
   const handleClick = async () => {
-    if (genOTP === OTP.join("")){
-      if (type === "signUp"){
+    if (genOTP === OTP.join("")) {
+      if (type === "signUp") {
         let response = ""
-        response = await register({name, email, password})
-        // if (response.code === '200') {
-        //   navigate('/notification',
-        //     {
-        //       state:
-        //       {
-        //         title: ""
-        //       }
-        //     })
-        //  }
+        response = await register({ name, email, password })
+        if (response.data.code === '200') {
+          setModalVisible(true)
+        }
       }
     }
-    
+
   }
 
 
@@ -88,14 +89,18 @@ const SendOTP = () => {
       setGenOTP(otp)
       setMessage("")
       let response = ""
-      if (type === "signUp") {  
+      if (type === "signUp") {
         response = await sendOtpApi({ email: email, otp: otp })
         setMessage(response.data.message)
       }
-     
+
     }
     fetchOtp();
   }, [sendOTP])
+
+  // const loginbutton = () {
+  //   navigate('auth/login')
+  // }
 
   return (
     <>
@@ -113,7 +118,7 @@ const SendOTP = () => {
 
           </div>
           {message && <p className="text-sm font-bold text-green-600">{message}</p>}
-          <p className="mb-2 text-sm">Chưa nhận được mã? <span onClick={() => setSendOTP((prev)=>!prev)} className=" hover:underline text-cyan-900">Gửi lại</span></p>
+          <p className="mb-2 text-sm">Chưa nhận được mã? <span onClick={() => setSendOTP((prev) => !prev)} className=" hover:underline text-cyan-900">Gửi lại</span></p>
 
           <button type="submit"
             onClick={handleClick}
@@ -123,6 +128,11 @@ const SendOTP = () => {
             Xác nhận
           </button>
         </div>
+        <Popup visible={modalVisible} onClose={closeModal}>
+          <h2 className="text-center">Thông báo</h2>
+          <p>Bạn đã đăng ký thành công vui lòng đăng nhập để sử dụng hệ thống</p>
+          <Link to="/auth/login" className="bg-red-600 rounded-md"><button>nhấn vào đây thằng ngu</button></Link>
+        </Popup>
       </div>
     </>)
 }

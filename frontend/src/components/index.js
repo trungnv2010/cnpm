@@ -2,6 +2,7 @@
 // Common components
 export {default as Layout} from './common/Layout'
 export {default as NotFound} from './common/NotFound'
+export {default as Popup} from './common/Popup'
 
 
 
