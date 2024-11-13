@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
+            $table->unsignedBigInteger('parent_id')->nullable(); // self-referencing cho danh mục cha
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade'); // khóa ngoại cho parent_id
             $table->timestamps();
         });
     }

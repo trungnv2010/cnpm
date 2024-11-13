@@ -14,24 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-        ]);
-
-        // Tạo tài khoản Cộng Tác Viên
-        User::create([
-            'name' => 'Collaborator User',
-            'email' => 'collab@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'collaborator',
-        ]);
-
-        // Tạo 10 tài khoản User thường
-        User::factory()->count(10)->create([
-            'role' => 'user',
-        ]);
+        User::factory()->count(10)->create();
     }
 }

@@ -22,54 +22,88 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
-        'active_session',
+        'address',
+        'role_id',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Thuộc tính sẽ bị ẩn trong mảng.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
-        'active_session',
+        'remember_token',
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Thiết lập quan hệ với Role.
      */
-    protected function casts(): array
+    public function role()
     {
-        return [
-            'email_verified_at' => 'datetime',
-        ];
+        return $this->belongsTo(Role::class);
     }
 
+    /**
+     * Thiết lập quan hệ với Order.
+     * Một User có nhiều Order.
+     */
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * Thiết lập quan hệ với Review.
+     * Một User có nhiều Review.
+     */
     public function reviews()
     {
-        $this->hasMany(Review::class);
+        return $this->hasMany(Review::class);
     }
 
+    /**
+     * Thiết lập quan hệ với Notification.
+     * Một User có nhiều Notification.
+     */
     public function notifications()
     {
         return $this->hasMany(Notification::class);
     }
 
+    /**
+     * Thiết lập quan hệ với Feedback.
+     * Một User có nhiều Feedback.
+     */
     public function feedbacks()
     {
         return $this->hasMany(Feedback::class);
     }
 
-    public function cart()
+    /**
+     * Thiết lập quan hệ với DiscountUsage.
+     * Một User có nhiều DiscountUsage.
+     */
+    public function discountUsages()
     {
-        return $this->hasOne(Cart::class);
+        return $this->hasMany(DiscountUsage::class);
+    }
+
+    /**
+     * Thiết lập quan hệ với CustomerService.
+     * Một User có thể có nhiều yêu cầu CustomerService.
+     */
+    public function customerServices()
+    {
+        return $this->hasMany(CustomerService::class);
+    }
+
+    /**
+     * Thiết lập quan hệ với ShippingAddress.
+     * Một User có nhiều ShippingAddress.
+     */
+    public function shippingAddresses()
+    {
+        return $this->hasMany(ShippingAddress::class);
     }
 }
