@@ -9,6 +9,11 @@ class Discount extends Model
 {
     use HasFactory;
 
+    /**
+     * Các thuộc tính có thể được gán hàng loạt.
+     *
+     * @var array
+     */
     protected $fillable = [
         'code',
         'type',
@@ -18,10 +23,20 @@ class Discount extends Model
     ];
 
     /**
-     * Relationship to get all orders that use this discount.
+     * Thiết lập quan hệ với OrderItem.
+     * Một Discount có thể được áp dụng cho nhiều OrderItem.
      */
-    public function orders()
+    public function orderItems()
     {
-        return $this->belongsToMany(Order::class, 'discount_order');
+        return $this->hasMany(OrderItem::class);
+    }
+
+    /**
+     * Thiết lập quan hệ với DiscountUsage.
+     * Một Discount có thể có nhiều DiscountUsage (nhiều lần sử dụng).
+     */
+    public function discountUsages()
+    {
+        return $this->hasMany(DiscountUsage::class);
     }
 }

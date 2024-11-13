@@ -21,6 +21,7 @@ class OrderItemFactory extends Factory
             'product_id' => \App\Models\Product::inRandomOrder()->first()->id, // Tạo product giả nếu chưa có
             'quantity' => $this->faker->numberBetween(1, 5), // Số lượng ngẫu nhiên từ 1 đến 5
             'price_at_purchase' => $this->faker->randomFloat(2, 10, 500), // Giá ngẫu nhiên từ 10 đến 500
+            'discount_id' => $this->faker->boolean ? \App\Models\Discount::factory() : null,
         ];
     }
 }

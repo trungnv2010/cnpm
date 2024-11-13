@@ -18,11 +18,13 @@ class DiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => strtoupper(Str::random(10)), // Mã giảm giá ngẫu nhiên
-            'type' => $this->faker->randomElement(['percentage', 'fixed_amount']), // Loại mã giảm giá
-            'amount' => $this->faker->randomFloat(2, 5, 50), // Giá trị giảm ngẫu nhiên từ 5 đến 50
-            'expiry_date' => $this->faker->optional()->dateTimeBetween('+1 week', '+1 month'), // Ngày hết hạn ngẫu nhiên
-            'usage_limit' => $this->faker->numberBetween(1, 10), // Giới hạn sử dụng ngẫu nhiên từ 1 đến 10
+            
+
+            'code' => strtoupper(Str::random(8)), // Mã giảm giá ngẫu nhiên với 8 ký tự
+            'type' => $this->faker->randomElement(['percentage', 'fixed']),
+            'amount' => $this->faker->randomFloat(2, 5, 50), // Giá trị giảm từ 5 đến 50
+            'expiry_date' => $this->faker->optional()->date(), // Ngày hết hạn ngẫu nhiên hoặc null
+            'usage_limit' => $this->faker->optional()->numberBetween(1, 100), // Giới hạn ngẫu nhiên hoặc null
         ];
     }
 }

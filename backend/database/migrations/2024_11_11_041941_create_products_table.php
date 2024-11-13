@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->decimal('price', 10, 2); // giá với độ chính xác 2 chữ số sau dấu thập phân
-            $table->integer('quantity')->default(0); // số lượng mặc định là 0
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // liên kết với bảng categories
-            $table->string('image_path')->nullable(); // lưu đường dẫn ảnh của sản phẩm
+            $table->decimal('price', 10, 2);
+            $table->integer('quantity');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->string('image_path')->nullable();
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

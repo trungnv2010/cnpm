@@ -25,7 +25,7 @@ class CheckRole
         }
 
         // Kiểm tra vai trò của người dùng
-        if ($user->role !== $role) {
+        if ($user->role->name !== $role) {
             return response()->json([
                 'error' => 'Forbidden: Bạn không có quyền truy cập.',
             ], 403);

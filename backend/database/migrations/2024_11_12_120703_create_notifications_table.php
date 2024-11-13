@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Liên kết với bảng users
-            $table->string('title'); // Tiêu đề thông báo
-            $table->text('message'); // Nội dung thông báo
-            $table->boolean('is_read')->default(false); // Trạng thái đọc thông báo
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('title');
+            $table->text('message');
+            $table->boolean('is_read')->default(false); // Đánh dấu nếu thông báo đã được đọc
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->nullable();
         });
     }
 

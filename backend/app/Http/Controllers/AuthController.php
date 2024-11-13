@@ -28,11 +28,11 @@ class AuthController extends Controller
             return response()->json([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
-                'role' => $user->role,
+                'role' => $user->role->name,
             ]);
         }
 
-        return response()->json(['message' => 'Unauthorized', 'code' => '401'], 401);
+        return response()->json(['message' => 'Tài khoản mật khẩu không đúng', 'code' => '401'], 401);
     }
 
 
