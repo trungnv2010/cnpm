@@ -94,6 +94,7 @@ const Signup = () => {
   useEffect(()=>{
     console.log(formResgister.email)
     console.log(error)
+    console.log(data)
   })
 
 

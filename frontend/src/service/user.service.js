@@ -11,7 +11,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     checkEmail: builder.query({
-      query: ({ email }) => ({
+      query: ({ email} ) => ({
         url: `checkmail?email=${email}`,
         method: "GET",
       }),
