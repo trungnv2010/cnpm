@@ -1,7 +1,18 @@
 import { useState,useRef,useEffect } from "react"
-
+import {Link } from "react-router-dom"
 
 const NavBarAdmin=(props)=>{
+    //ref của các Link
+    // const refs={
+    //     ref1: useRef(),
+    //     ref2:useRef()
+    // }
+
+    // //dùng để đổi màu khi chọn
+    // const handleChangeChoice=(choice)=>{
+    //     props.onChangeChoice(choice)
+    // }
+    const choice=props.choice
     //dùng để tắt bật profile
     const [isProfileOn,setProfile]=useState(false)
     const profileRef=useRef();
@@ -26,9 +37,9 @@ const NavBarAdmin=(props)=>{
     //
 
     return(<>
-        <div class="flex flex-col bg-gray-200 h-screen ">
-            {/* <!-- Top Navbar --> */}
-            <div class=" fixed w-[calc(100%-14rem)] ml-60  bg-white text-gray-800 shadow p-4 flex items-center justify-between z-10">
+        <div class="flex flex-col bg-gray-200 h-screen w-full max-w-full ">
+            {/*  Top Navbar  */}
+            <div class=" fixed w-[calc(100%-15rem)] ml-60  bg-white text-gray-800 shadow p-4 flex items-center justify-between z-10">
 
                 <h1 class="text-xl font-bold ml-4">Tổng quan</h1>
 
@@ -73,11 +84,10 @@ const NavBarAdmin=(props)=>{
 
 
 
-                    
-                    
+                      
                     <div class="relative cursor-pointer">
-                    <span class="text-blue-500 text-xl">🔔</span>
-                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">19</span>
+                        <span class="text-blue-500 text-xl">🔔</span>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">19</span>
                     </div>
                 </div>
             </div>
@@ -88,18 +98,20 @@ const NavBarAdmin=(props)=>{
                 <div class="fixed  w-60 bg-purple-900 h-screen p-4 text-white">
                     <h2 class="text-2xl font-bold mb-6">Admin</h2>
                     <nav class="space-y-4">
-                    <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
-                        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} 
-                            stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" 
-                            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 
-                            1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 
-                            1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                            </svg>
-                        </span>
-                        <span>Tổng quan</span>
-                    </a>
-                    <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
+
+                    <Link to="" className={`flex items-center w-full p-2 space-x-2 rounded hover:bg-yellow-500" ${choice==="dashboard"?"bg-yellow-500":""}`}>
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} 
+                                stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" 
+                                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 
+                                1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 
+                                1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                                </svg>
+                            </span>
+                            <span>Tổng quan</span>
+                    </Link>
+                    
+                    <Link class={`flex items-center space-x-2 p-2 rounded hover:bg-blue-700" ${choice==="orders"?"bg-yellow-500":""}`}>
                         <span><svg xmlns="http://www.w3.org/2000/svg" 
                             fill="none" viewBox="0 0 24 24" strokeWidth={1.5} 
                             stroke="currentColor" className="size-6">
@@ -117,8 +129,8 @@ const NavBarAdmin=(props)=>{
                             <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
                         </span>
-                    </a>
-                    <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
+                    </Link>
+                    <Link href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
                         <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
                             strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 
@@ -128,12 +140,12 @@ const NavBarAdmin=(props)=>{
                             </svg>
                         </span>
                         <span>Vận chuyển</span>
-                    </a>
-                    <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
+                    </Link>
+                    <Link href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
                         <span>📄</span>
                         <span>Sản phẩm</span>
-                    </a>
-                    <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
+                    </Link>
+                    <Link href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
                         <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} 
                                 stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 
@@ -142,21 +154,21 @@ const NavBarAdmin=(props)=>{
                             </svg>
                         </span>
                         <span>Khách hàng</span>
-                    </a>
-                    <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
+                    </Link>
+                    <Link href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
                         <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
                             </svg>
                         </span>
                         <span>Sổ quỹ</span>
-                    </a>
-                    <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
+                    </Link>
+                    <Link href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-blue-700">
                         <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                             </svg>
                         </span>
                         <span>Báo cáo</span>
-                    </a>
+                    </Link>
                     </nav>
 
                     <div class="mt-6 border-t-2 border-yellow-400 pt-4">
@@ -178,7 +190,7 @@ const NavBarAdmin=(props)=>{
                     </div>
                 </div>
 
-                <div class="ml-64 mt-7 flex-1 p-8 pt-20 bg-gray-200 ">
+                <div class="ml-64 mt-7 flex-1 p-8 pt-20 bg-gray-200 py-auto ">
                     {props.children}
                 </div>
             </div>
