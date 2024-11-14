@@ -1,15 +1,24 @@
 import NavBarAdmin from "./NavbarAdmin"
+import Test from "./Test"
 import {Dashboard} from "./dashboard"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const HomePageAdmin=()=>{
-    const [choice,setChoice]=useState('')
+    // const [choice,setChoice]=useState('')
+    // const updateChoice=(newChoice)=>{
+    //     setChoice(newChoice)
+    // }
+
+    // useEffect(()=>{
+    //     console.log(choice.current)
+    // },[choice])
 
 
     return(<>
-        <NavBarAdmin>
+        <Dashboard/>
+        {/* <NavBarAdmin onChangeChoice={updateChoice}>
             <Dashboard/>
-        </NavBarAdmin>
+        </NavBarAdmin> */}
     </>
     )
 }
