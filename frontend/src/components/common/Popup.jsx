@@ -8,12 +8,12 @@ const Popup = ({ visible, onClose, children }) => {
       onClick={onClose}
     >
       <div
-        className="relative w-11/12 max-w-md p-6 bg-white rounded-lg shadow-lg"
+        className="relative max-w-sm p-6 text-center bg-white rounded-lg shadow-lg"
         onClick={(e) => e.stopPropagation()} 
       >
         {children}
-       
       </div>
+      
     </div>
   );
 };

@@ -33,6 +33,7 @@ const SendOTP = () => {
     return otp.toString();
   };
 
+  //Popup
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -129,9 +130,16 @@ const SendOTP = () => {
           </button>
         </div>
         <Popup visible={modalVisible} onClose={closeModal}>
-          <h2 className="text-center">Thông báo</h2>
-          <p>Bạn đã đăng ký thành công vui lòng đăng nhập để sử dụng hệ thống</p>
-          <Link to="/auth/login" className="bg-red-600 rounded-md"><button>nhấn vào đây thằng ngu</button></Link>
+          <div className='mb-4'>
+            <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
+             className="w-10 h-10 m-auto text-green-500 size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+
+            <h2 className="text-xl font-bold ">Thông báo</h2>
+            <p>Bạn đã đăng ký thành công vui lòng đăng nhập để sử dụng hệ thống.</p>
+          </div>
+          <Link className="px-4 py-2 font-bold text-white bg-purple-600 rounded-md"><button>Đăng nhập</button></Link>
         </Popup>
       </div>
     </>)

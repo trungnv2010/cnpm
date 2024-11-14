@@ -6,6 +6,7 @@ const NavBarAdmin=(props)=>{
     const [isProfileOn,setProfile]=useState(false)
     const profileRef=useRef();
     const profileDropDownRef=useRef(); 
+
     const handleToggleProfile=()=>{
         return setProfile((prev)=>!prev);
     }
@@ -25,14 +26,14 @@ const NavBarAdmin=(props)=>{
     //
 
     return(<>
-        <div class="flex flex-col h-screen">
+        <div class="flex flex-col bg-gray-200 h-screen ">
             {/* <!-- Top Navbar --> */}
-            <div class="fixed w-[calc(100%-14rem)] ml-60  bg-white text-gray-800 shadow p-4 flex items-center justify-between z-10">
+            <div class=" fixed w-[calc(100%-14rem)] ml-60  bg-white text-gray-800 shadow p-4 flex items-center justify-between z-10">
 
                 <h1 class="text-xl font-bold ml-4">Tổng quan</h1>
 
 
-                <div class="flex items-center space-x-6 mr-4">
+                <div class="flex items-center space-x-6 mr-4 ">
 
                     <div class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 cursor-pointer">
                     <span class="text-lg"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
@@ -74,8 +75,6 @@ const NavBarAdmin=(props)=>{
 
                     
                     
-
-
                     <div class="relative cursor-pointer">
                     <span class="text-blue-500 text-xl">🔔</span>
                     <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">19</span>
@@ -84,7 +83,7 @@ const NavBarAdmin=(props)=>{
             </div>
 
 
-            <div class="flex ">
+            <div class="flex  bg-gray-200">
             {/* <!-- Sidebar --> */}
                 <div class="fixed  w-60 bg-purple-900 h-screen p-4 text-white">
                     <h2 class="text-2xl font-bold mb-6">Admin</h2>
@@ -179,7 +178,7 @@ const NavBarAdmin=(props)=>{
                     </div>
                 </div>
 
-                <div class="ml-64 flex-1 p-8 pt-20">
+                <div class="ml-64 mt-7 flex-1 p-8 pt-20 bg-gray-200 ">
                     {props.children}
                 </div>
             </div>

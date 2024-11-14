@@ -1,9 +1,14 @@
 import NavBarAdmin from "./NavbarAdmin"
+import {Dashboard} from "./dashboard"
+import { useState } from "react"
 
 const HomePageAdmin=()=>{
+    const [choice,setChoice]=useState('')
+
+
     return(<>
         <NavBarAdmin>
-            <div className="w-full p-5 bg-white rounded-md ">hello</div>
+            <Dashboard/>
         </NavBarAdmin>
     </>
     )
