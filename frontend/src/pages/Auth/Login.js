@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation  } from "react-router-dom";
 import { useLoginMutation } from "@/service";
 import { regexPatterns } from "./validationPartten";
 import { useDispatch } from "react-redux";
@@ -13,6 +13,10 @@ const Login = () => {
     
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get('redirect');
   
   const [formLogin, setFormLogin] = useState({
     email: "",
@@ -41,8 +45,13 @@ const Login = () => {
   
   useEffect(() => {
     if (isSuccess && data) {
-      dispatch(userLogin({ access_token: data.access_token }));
-      navigate("/" + data.role);
+      dispatch(userLogin({ access_token: data.access_token, role: data.role }));
+      if (redirect) {
+        navigate(decodeURIComponent(redirect));
+      } else {
+        navigate("/" + data.role);
+      }
+      
     }
   }, [isSuccess, data]);
 

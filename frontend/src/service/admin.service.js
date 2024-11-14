@@ -1,61 +1,39 @@
-// import { changePasswordSchema } from "@/utils";
 import apiSlice from "./api";
 
-export const userApiSlice = apiSlice.injectEndpoints({
+export const adminApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
-      query: (body) => ({
-        url: `login`,
-        method: "POST",
-        body
+    getDailySales: builder.query({
+      query: () => ({
+        url: `admin/overview/daily-sales`,
+        method: "get",
       }),
     }),
-    checkEmail: builder.mutation({
-      query: (body ) => ({
-        url: 'check-email?',
-        method: "post",
-        body
+    getPendingOrders: builder.query({
+      query: () => ({
+        url: `admin/overview/pending-orders`,
+        method: "get",
       }),
     }),
-    register: builder.mutation({
-      query: ( body ) => ({
-        url: "register",
-        method: "POST",
-        body,
+    getRevenueStatistics: builder.query({
+      query: ({ period }) => ({
+        url: "admin/overview/revenue-statistics",
+        method: "get",
+        params: { period },
       }),
     }),
-    sendOtpApi: builder.mutation({
-      query: (body) => ({
-        url: "send-otp",
-        method: "post",
-        body
+    getTopSellingProducts: builder.query({
+      query: ({ period }) => ({
+        url: "admin/overview/top-selling-products",
+        method: "get",
+        params: { period },
       }),
     }),
-    restorePassword: builder.mutation({
-      query: ({ email, otp }) => ({
-        url: "otpreset",
-        method: "GET",
-        params: {
-          email,
-          otp,
-        },
-      }),
-    }),
-    changePassword: builder.mutation({
-      query: ({ email, password }) => ({
-        url: "changepassword",
-        method: 'get',
-        params: { email, password }
-      })
-    })
   }),
 });
 
 export const {
-  useLoginMutation,
-  useCheckEmailMutation,
-  useSendOtpApiMutation,
-  useRegisterMutation,
-  useRestorePasswordMutation,
-  useChangePasswordMutation
-} = userApiSlice;
+  useGetDailySalesQuery,
+  useGetRevenueStatisticsQuery,
+  useGetPendingOrdersQuery,
+  useGetTopSellingProductsQuery
+} = adminApiSlice;
