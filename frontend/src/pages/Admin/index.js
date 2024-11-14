@@ -1,21 +1,30 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
+import { AuthWrapper } from "@/components";
+import { useGetDailySalesQuery, useGetRevenueStatisticsQuery, useGetPendingOrdersQuery, useGetTopSellingProductsQuery } from "@/service";
 
 import HomePageAdmin from "./HomePageAdmin";
 
 const Admin = () => {
-    const accessToken = useSelector((state) => state.user.accessToken);
-    console.log('access token', accessToken)
-    
-    return (
-        <>
-            {/* <NavbarAdmin accessToken={accessToken}/>
-            Admin {accessToken} */}
-            <div className="bg-gray-200">
-                <HomePageAdmin/>
-            </div>
-        </>
-    )
-}
+  // const { data, isSuccess, isError, isLoading, error } =
+  //   useGetDailySalesQuery();
+  // const { data, isSuccess, isError, isLoading, error } =
+  //   useGetRevenueStatisticsQuery({period: 'this_year'});
+    // const { data, isSuccess, isError, isLoading, error } =
+    // useGetPendingOrdersQuery({period: 'this_year'});
+    const { data, isSuccess, isError, isLoading, error } =
+    useGetTopSellingProductsQuery({period: 'this_year'});
+  console.log(data);
 
-export default Admin
+  return (
+    <>
+      <AuthWrapper requiredRole="admin">
+        <div className="bg-gray-200">
+          <HomePageAdmin />
+        </div>
+      </AuthWrapper>
+    </>
+  );
+};
+
+export default Admin;
