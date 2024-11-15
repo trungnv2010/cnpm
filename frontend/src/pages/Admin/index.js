@@ -10,15 +10,15 @@ const Admin = () => {
   //   useGetDailySalesQuery();
   // const { data, isSuccess, isError, isLoading, error } =
   //   useGetRevenueStatisticsQuery({period: 'this_year'});
-    // const { data, isSuccess, isError, isLoading, error } =
-    // useGetPendingOrdersQuery({period: 'this_year'});
-    const { data, isSuccess, isError, isLoading, error } =
-    useGetTopSellingProductsQuery({period: 'this_year'});
-  console.log(data);
+  // const {  data : dataPendingOrder } =
+  //   useGetPendingOrdersQuery();
+  // const  { data : dataTopSellingProducts } = useGetTopSellingProductsQuery({ period: 'this_year' });
+  // console.log(dataPendingOrder);
+  // console.log(dataTopSellingProducts)
 
   return (
     <>
-      <AuthWrapper requiredRole="admin">
+      <AuthWrapper requiredRole="admin" >
         <div className="bg-gray-200">
           <HomePageAdmin />
         </div>

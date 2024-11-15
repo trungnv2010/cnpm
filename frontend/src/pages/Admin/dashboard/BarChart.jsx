@@ -6,14 +6,16 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 // Đăng ký các thành phần của Chart.js để tránh lỗi
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart = () => {
+const BarChart = (props) => {
   // Dữ liệu cho biểu đồ
   const data = {
-    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
+    // labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
+    labels: props.labels,
     datasets: [
       {
         label: 'Doanh thu (Triệu VNĐ)',
-        data: [12, 19, 3, 5, 2, 3],
+        // data: [12, 19, 3, 5, 2, 3],
+        data:props.data,
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
