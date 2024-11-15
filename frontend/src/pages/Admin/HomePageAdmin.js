@@ -1,5 +1,5 @@
 import NavBarAdmin from "./NavbarAdmin"
-import Test from "./Test"
+
 import {Dashboard} from "./dashboard"
 import { useEffect, useState } from "react"
 
