@@ -25,4 +25,17 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
+    public function wishlists()
+    {
+        return $this->belongsToMany(Wishlist::class, 'wishlist_product');
+    }
+    public function promotions()
+    {
+        return $this->belongsToMany(Promotion::class, 'promotion_product');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'product_tag');
+    }
 }
