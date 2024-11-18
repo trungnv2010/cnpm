@@ -19,6 +19,7 @@ const Signup = () => {
     {
       name: '',
       email: '',
+      phoneNumber:'',
       password: '',
       repeatPassword: ''
     }
@@ -31,6 +32,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({
     name: '',
     email: '',
+    phoneNumber:'',
     password: '',
     repeatPassword: ''
   });
@@ -48,6 +50,8 @@ const Signup = () => {
         return regexPatterns.email.test(value) ? '' : 'Email không hợp lệ';
       case 'name':
         return regexPatterns.name.test(value) ? '' : 'Tên chỉ được chứa chữ cái và khoảng trắng';
+      case 'phoneNumber':
+        return regexPatterns.phoneNumber.test(value)?'':'Số điện thoại không hợp lệ';
       case 'password':
         return regexPatterns.password.test(value) ? '' : 'Mật khẩu phải dài tối thiểu 8 kí tự, gồm ít nhất 1 số và 1 kí tự đặc biệt'
       case 'repeatPassword':
@@ -98,6 +102,7 @@ const Signup = () => {
             email: formResgister.email,
             name: formResgister.name,
             password: formResgister.password,
+            phoneNumber:formResgister.phoneNumber,
             type: 'signUp'
           }
         })
@@ -151,6 +156,17 @@ const Signup = () => {
                 focus:outline-none focus:ring-2 focus:ring-blue-500`}
               placeholder="Nhập email của bạn" required />
             {errors.email && formResgister.email !== 0 && <p className="text-sm text-red-500">{errors.email}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label for="phoneNumber" className="block text-sm font-medium text-gray-600">Số điện thoại</label>
+            <input type="text" onChange={handleChange} id="phoneNumber"
+              name="phoneNumber"
+              className={`w-full px-4 py-2 mt-1 border border-gray-300 
+               rounded-md
+                focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              placeholder="Nhập số điện thoại" required />
+            {errors.phoneNumber && formResgister.phoneNumber !== 0 && <p className="text-sm text-red-500">{errors.phoneNumber}</p>}
           </div>
 
           <div className="mb-6">
