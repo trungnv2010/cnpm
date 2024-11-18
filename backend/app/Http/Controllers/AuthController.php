@@ -42,6 +42,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'phone' => 'required|string',
             'role_id' => '3'
         ]);
 
@@ -53,6 +54,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
             'role_id' => $request->role_id ?? '3',
         ]);
 
@@ -134,6 +136,24 @@ class AuthController extends Controller
         } else {
             return response()->json([
                 'message' => 'Email chưa tồn tại',
+                'code' => '200'
+            ]);
+        }
+    }
+    public function checkPhone(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required'
+        ]);
+        $phoneExits = User::where('phone', $request->phone)->exists();
+        if ($phoneExits) {
+            return response()->json([
+                'message' => 'Số điện thoại đã tồn tại',
+                'code' => '403'
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Số điện thoại chưa tồn tại',
                 'code' => '200'
             ]);
         }

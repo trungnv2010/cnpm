@@ -17,14 +17,15 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-           
-
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id, // Tạo một User mẫu nếu chưa có
-            'shipping_address_id' => \App\Models\ShippingAddress::inRandomOrder()->first()->id, // Tạo một ShippingAddress mẫu
+            'user_id' => \App\Models\User::inRandomOrder()->first()->id, 
+            'assigned_staff_id' => \App\Models\User::inRandomOrder()->first()->id,
             'status' => $this->faker->randomElement(['pending', 'completed', 'canceled']),
-            'total_amount' => $this->faker->randomFloat(2, 50, 1000), // Số tiền từ 50 đến 1000
-            'payment_status' => $this->faker->randomElement(['unpaid', 'paid']),
-            'completed_at' => $this->faker->optional()->dateTime(), // Ngày hoàn tất ngẫu nhiên, có thể null
+            'total_amount' => $this->faker->randomFloat(2, 10, 1000), 
+            'payment_status' => $this->faker->randomElement(['unpaid', 'paid', 'refunded']),
+            'delivery_status' => $this->faker->randomElement(['pending', 'shipped', 'delivered', 'returned', 'canceled']),
+            'completed_at' => $this->faker->optional()->dateTimeThisYear(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
