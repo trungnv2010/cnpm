@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'password' => Hash::make('ThangLong@2024@'),
             'address' => $this->faker->address,
+            'phone' => $this->faker->unique()->numerify('09########'),
             'role_id' => \App\Models\Role::inRandomOrder()->first()->id,
         ];
     }

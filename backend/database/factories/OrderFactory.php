@@ -17,8 +17,8 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::inOrderRandom()->first()->id, 
-            'assigned_staff_id' => \App\Models\User::inOrderRandom()->first()->id,
+            'user_id' => \App\Models\User::inRandomOrder()->first()->id, 
+            'assigned_staff_id' => \App\Models\User::inRandomOrder()->first()->id,
             'status' => $this->faker->randomElement(['pending', 'completed', 'canceled']),
             'total_amount' => $this->faker->randomFloat(2, 10, 1000), 
             'payment_status' => $this->faker->randomElement(['unpaid', 'paid', 'refunded']),

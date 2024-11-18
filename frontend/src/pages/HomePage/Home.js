@@ -11,7 +11,9 @@ const Home = () => {
       <h2>Welcome to the Home Page 123</h2>
       <button onClick={handleLogout}>Đăng xuất</button>
     
-
+      <buntton onClick={handleLogout}>
+        logout
+      </buntton>
   </>)
 };
 
