@@ -121,7 +121,7 @@ const NavBarAdmin = (props) => {
                             <span>Tổng quan</span>
                         </Link>
 
-                        <Link onClick={()=>setOpenOrder(!openOrder)} className={`flex items-center space-x-2 p-2 rounded hover:bg-blue-700" ${choice === "orders" ? "bg-yellow-500" : ""}`}>
+                        <Link to="orders" onClick={()=>setOpenOrder(!openOrder)} className={`flex items-center space-x-2 p-2 rounded hover:bg-blue-700" ${choice === "orders" ? "bg-yellow-500" : ""}`}>
                             <span><svg xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                                 stroke="currentColor" className="size-6">

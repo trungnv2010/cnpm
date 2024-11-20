@@ -28,6 +28,13 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         params: { period },
       }),
     }),
+    getSearchCustomer: builder.query({
+      query:({query})=>({
+        url:"admin/search",
+        method:"get",
+        params:{query},
+      }),
+    }),
   }),
 });
 
@@ -35,5 +42,6 @@ export const {
   useGetDailySalesQuery,
   useGetRevenueStatisticsQuery,
   useGetPendingOrdersQuery,
-  useGetTopSellingProductsQuery
+  useGetTopSellingProductsQuery,
+  useGetSearchCustomerQuery
 } = adminApiSlice;
