@@ -22,6 +22,7 @@ class OrderFactory extends Factory
             'status' => $this->faker->randomElement(['pending', 'completed', 'canceled']),
             'total_amount' => $this->faker->randomFloat(2, 10, 1000), 
             'payment_status' => $this->faker->randomElement(['unpaid', 'paid', 'refunded']),
+            'address' => $this->faker->address,
             'delivery_status' => $this->faker->randomElement(['pending', 'shipped', 'delivered', 'returned', 'canceled']),
             'completed_at' => $this->faker->optional()->dateTimeThisYear(),
             'created_at' => now(),

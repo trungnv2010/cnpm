@@ -31,10 +31,7 @@ class Order extends Model
      * Thiết lập quan hệ với ShippingAddress.
      * Một Order sử dụng một ShippingAddress.
      */
-    public function shippingAddress()
-    {
-        return $this->belongsTo(ShippingAddress::class);
-    }
+   
 
     /**
      * Thiết lập quan hệ với OrderItem.

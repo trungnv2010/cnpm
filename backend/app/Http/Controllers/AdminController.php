@@ -26,4 +26,6 @@ class AdminController extends Controller
 
         return response()->json(['data' => $customers, 'code' => '200'], 200);
     }
+
+
 }

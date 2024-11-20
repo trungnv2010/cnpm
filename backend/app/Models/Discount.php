@@ -20,6 +20,9 @@ class Discount extends Model
         'amount',
         'expiry_date',
         'usage_limit',
+        'min_purchase_amount',
+        'is_active',
+        'description',
     ];
 
     /**
@@ -38,5 +41,21 @@ class Discount extends Model
     public function discountUsages()
     {
         return $this->hasMany(DiscountUsage::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('expiry_date')
+                    ->orWhere('expiry_date', '>=', now());
+            });
+    }
+
+    public function isValidForOrder($order)
+    {
+        return $this->active()
+            ->where('min_purchase_amount', '<=', $order->total_amount)
+            ->exists();
     }
 }

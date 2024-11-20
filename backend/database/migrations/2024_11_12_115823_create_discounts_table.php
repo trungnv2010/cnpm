@@ -17,6 +17,9 @@ return new class extends Migration
             $table->enum('type', ['percentage', 'fixed'])->default('fixed'); // Loại giảm giá
             $table->decimal('amount', 8, 2); // Giá trị giảm giá
             $table->date('expiry_date')->nullable(); // Ngày hết hạn, có thể null nếu không có ngày hết hạn
+            $table->decimal('min_purchase_amount', 8, 2)->nullable(); // Số tiền tối thiểu để áp dụng giảm giá
+            $table->boolean('is_active')->default(true); // Trạng thái hoạt động
+            $table->text('description')->nullable(); // Mô tả
             $table->integer('usage_limit')->nullable(); // Giới hạn số lần sử dụng, có thể để trống
             $table->timestamps();
         });

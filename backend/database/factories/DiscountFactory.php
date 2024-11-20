@@ -24,6 +24,9 @@ class DiscountFactory extends Factory
             'type' => $this->faker->randomElement(['percentage', 'fixed']),
             'amount' => $this->faker->randomFloat(2, 5, 50), // Giá trị giảm từ 5 đến 50
             'expiry_date' => $this->faker->optional()->date(), // Ngày hết hạn ngẫu nhiên hoặc null
+            'min_purchase_amount' => $this->faker->optional()->randomFloat(2, 10, 100), // Số tiền tối thiểu ngẫu nhiên hoặc null
+            'is_active' => $this->faker->boolean(chanceOfGettingTrue: 80), // 80% số lượng hoạt động
+            'description' => $this->faker->optional()->sentence(), // Mô tả ngẫu nhiên hoặc null
             'usage_limit' => $this->faker->optional()->numberBetween(1, 100), // Giới hạn ngẫu nhiên hoặc null
         ];
     }

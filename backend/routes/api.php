@@ -7,6 +7,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DiscountController;
+
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -31,4 +34,12 @@ Route::prefix('admin')->middleware(CheckRole::class . ':admin')->group(function 
     });
     Route::get('/users', [UserController::class, 'getUserByRole']);
     Route::get('/search', [AdminController::class, 'search']);
+});
+
+Route::prefix('products')->group(function () {
+    Route::get('/search', [ProductController::class, 'searchProduct']);
+});
+
+Route::prefix('discounts')->group(function () {
+    Route::get('/active', [DiscountController::class, 'getActiveDiscountsByOrderAndUser']);
 });
