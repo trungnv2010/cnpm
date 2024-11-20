@@ -6,7 +6,7 @@ import { useUserInfo } from '@/hooks';
 
 export default function AuthWrapper({ children, requiredRole = 'user' }) {
   const { userInfo } = useUserInfo();
-  
+  console.log(userInfo.accessToken)
   
   const hasPermission = () => {
     if (!userInfo.accessToken) return false; 

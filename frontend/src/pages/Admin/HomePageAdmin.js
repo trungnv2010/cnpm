@@ -1,6 +1,9 @@
 import NavBarAdmin from "./NavbarAdmin"
 import {Dashboard} from "./dashboard"
 import { useEffect, useState } from "react"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Orders } from "./orders"
+import Test from "./Test"
 
 const HomePageAdmin=()=>{
     // const [choice,setChoice]=useState('')
@@ -14,10 +17,8 @@ const HomePageAdmin=()=>{
 
 
     return(<>
-        <Dashboard/>
-        {/* <NavBarAdmin onChangeChoice={updateChoice}>
-            <Dashboard/>
-        </NavBarAdmin> */}
+        <Orders/>
+        {/* <Test/> */}
     </>
     )
 }
