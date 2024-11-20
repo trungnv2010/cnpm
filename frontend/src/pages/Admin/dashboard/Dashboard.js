@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NavBarAdmin from "../NavbarAdmin";
+import NavBarAdmin from "../../../components/navbar/AdminLayout";
 import BarChart from "./BarChart";
 import { useGetRevenueStatisticsQuery,useGetTopSellingProductsQuery } from '@/service';
 import {
