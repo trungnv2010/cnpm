@@ -162,7 +162,7 @@ const Admin = () => {
     <>
       <div className="bg-gray-200">
         <HeaderAdmin title="Tổng quan" />
-        <div className="max-w-[calc(100%-1rem)] grid grid-cols-5 gap-x-6 gap-y-6">
+        <div className="max-w-[calc(100%-1rem)] grid grid-cols-5 gap-x-6 gap-y-6 ">
           {/*két quả kinh doanh*/}
           <div class=" mx-auto   p-4 border border-gray-200 rounded-md shadow-sm bg-white col-span-3 w-full">
             <div class="flex justify-between items-center mb-4">

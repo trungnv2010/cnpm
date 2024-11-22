@@ -16,17 +16,17 @@ const AdminLayout = () => {
     <AuthWrapper requiredRole="admin">
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 w-64 bg-purple-900 text-white">
+      <div className="fixed inset-y-0 left-0 w-64 text-white bg-purple-900">
         <div className="p-6">
-          <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
+          <h2 className="mb-6 text-2xl font-bold">Admin Panel</h2>
           <nav className="space-y-2">
             <Link
               to="/admin"
-              className="flex items-center px-4 py-2 hover:bg-yellow-500 rounded-lg transition-colors"
+              className="flex items-center px-4 py-2 transition-colors rounded-lg hover:bg-yellow-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
+                className="w-5 h-5 mr-3"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -41,11 +41,11 @@ const AdminLayout = () => {
               <h1 className="text-lg font-semibold">Tổng quan</h1>
             </Link>
             <div
-              className="flex items-center px-4 py-2 hover:bg-yellow-500 rounded-lg transition-colors"
+              className="flex items-center px-4 py-2 transition-colors rounded-lg hover:bg-yellow-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
+                className="w-5 h-5 mr-3"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -62,11 +62,11 @@ const AdminLayout = () => {
             </div>
             <Link
               to="/admin/products"
-              className="flex items-center px-4 py-2 hover:bg-yellow-500 rounded-lg transition-colors"
+              className="flex items-center px-4 py-2 transition-colors rounded-lg hover:bg-yellow-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
+                className="w-5 h-5 mr-3"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -82,11 +82,11 @@ const AdminLayout = () => {
             </Link>
             <Link
               to="/admin/test"
-              className="flex items-center px-4 py-2 hover:bg-yellow-500 rounded-lg transition-colors"
+              className="flex items-center px-4 py-2 transition-colors rounded-lg hover:bg-yellow-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-3"
+                className="w-5 h-5 mr-3"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -105,12 +105,11 @@ const AdminLayout = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 ml-64">
+      <div className="flex-1 ml-64 bg-gray-200">
         {/* Top Navbar */}
         
-
         {/* Page Content */}
-        <div className="p-6 mt-16">
+        <div className="p-6 mt-16 bg-gray-200">
           <Outlet />
         </div>
       </div>
