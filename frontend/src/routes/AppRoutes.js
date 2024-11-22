@@ -45,10 +45,8 @@ function AppRoutes() {
           <Route path="test" element={<Test />} />
         </Route>
 
-        {/* Home Route */}
         <Route path="/" element={<Home />} />
 
-        {/* Dynamic Routes */}
         {dynamicRoutes.map(({ path, Component }, index) => (
           <Route key={index} path={path} element={<Component />} />
         ))}

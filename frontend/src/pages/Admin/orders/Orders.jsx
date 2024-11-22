@@ -6,10 +6,18 @@ const Orders = () => {
   const choice = "orders";
   //tìm kiếm khách hàng
   const [searchParam, setSearchParam] = useState("");
+  const [addressSelected, setAddressSelected] = useState({});
   const listUserDropDownRef = useRef();
   const [listUser, setListUser] = useState(false);
   const [chosenUser, setChosenUser] = useState({});
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchParam);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [showAddNewAddress, setShowAddNewAddress] = useState(false);
+  const [newAddress, setNewAddress] = useState({
+    address: '',
+    is_default: 0
+  });
+
   const handleChangeInput = (e) => {
     setSearchParam(e.target.value);
   };
@@ -32,6 +40,9 @@ const Orders = () => {
   const handleChooseUser = (customer) => {
     setChosenUser(customer);
     setListUser(false);
+    setAddressSelected(customer?.shipping_addresses?.find(
+      (address) => address.is_default === 1
+    ));
   };
   const handleCancelChooseUser = () => {
     setChosenUser({});
@@ -57,6 +68,41 @@ const Orders = () => {
     query: debouncedSearchTerm,
   });
   const dataCustomer = dataCustomerRaw?.data;
+
+  const handleChangeAddress = () => {
+    
+    setShowAddressModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowAddressModal(false);
+  };
+
+  const handleSelectAddress = (address) => {
+    setAddressSelected(address);
+    setShowAddressModal(false);
+  };
+
+  const handleShowAddNew = () => {
+    setShowAddNewAddress(true);
+  };
+
+  const handleCancelAddNew = () => {
+    setShowAddNewAddress(false);
+    setNewAddress({ address: '', is_default: 0 });
+  };
+
+  const handleSubmitNewAddress = () => {
+    // TODO: Implement API call to save new address
+    // After successful save:
+    console.log(newAddress);
+    setChosenUser({
+      ...chosenUser,
+      shipping_addresses: [...chosenUser.shipping_addresses, newAddress]
+    });
+    setShowAddNewAddress(false);
+    setNewAddress({ address: '', is_default: 0 });
+  };
 
   //
   return (
@@ -122,27 +168,6 @@ const Orders = () => {
               </ul>
             )}
           </div>
-
-          {/* <div className="border-t-2 border-gray-400"></div> */}
-
-          {/* <div className="flex flex-col p-3 mt-3 text-center text-black">
-                        {Object.keys(chosenUser).length===0&&(<><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 
-                        className="items-center text-gray-300 size-20">
-                            <path strokeLinecap="round" 
-                            strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-                        </svg>
-                        <div className="items-center justify-center text-gray-300">Chưa có thông tin khách hàng</div></>)}
-
-                        <div className="">
-                            {chosenUser.name}
-                            <div onClick={handleCancelChooseUser}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-
-                            </div>
-                        </div>
-                    </div>  */}
           <div className="flex flex-col p-3 mt-3 text-center text-black">
             {Object.keys(chosenUser).length === 0 && (
               <div className="flex flex-col items-center">
@@ -198,6 +223,7 @@ const Orders = () => {
                     </h3>
                     <a
                       href="#"
+                      onClick={handleChangeAddress}
                       className="text-sm text-blue-500 hover:underline"
                     >
                       Thay đổi
@@ -208,9 +234,7 @@ const Orders = () => {
                   </div>
 
                   <p className="mt-1 text-gray-700">
-                    {chosenUser?.shipping_addresses?.find(
-                      (address) => address.is_default === 1
-                    )?.address || "Không có địa chỉ mặc định"}
+                    {addressSelected?.address}
                   </p>
                 </div>
               </div>
@@ -265,29 +289,89 @@ const Orders = () => {
               <button className="flex items-center p-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 Tạo đơn hàng (F1)
               </button>
-
-              {/* Dropdown menu */}
-              {/* {showDropdown && (
-                            <div className="absolute right-0 w-48 mt-2 bg-white border border-gray-300 rounded shadow-lg">
-                                <a
-                                href="#"
-                                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                                >
-                                Tùy chọn 1
-                                </a>
-                                <a
-                                href="#"
-                                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-
-                                >
-                                Tùy chọn 2
-                                </a>
-                            </div>
-                            )} */}
             </div>
           </div>
         </div>
       </div>
+
+      {showAddressModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-[500px] bg-white rounded-lg shadow-lg">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-lg font-semibold">Chọn địa chỉ giao hàng</h3>
+              <button onClick={handleCloseModal}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="p-4 max-h-[400px] overflow-y-auto">
+              {/* Button to add new address */}
+              <button 
+                onClick={handleShowAddNew}
+                className="w-full p-3 mb-4 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 flex items-center justify-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Thêm địa chỉ mới
+              </button>
+
+              {showAddNewAddress && (
+                <div className="p-4 mb-4 border rounded-lg bg-gray-50">
+                  <div className="mb-4">
+                    <label className="block mb-2 text-sm font-medium">Địa chỉ mới</label>
+                    <textarea
+                      value={newAddress.address}
+                      onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
+                      className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      rows="3"
+                      placeholder="Nhập địa chỉ..."
+                    />
+                  </div>
+                
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={handleCancelAddNew}
+                      className="px-4 py-2 text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
+                    >
+                      Hủy
+                    </button>
+                    <button
+                      onClick={handleSubmitNewAddress}
+                      className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+                    >
+                      Lưu địa chỉ
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Existing addresses list */}
+              {chosenUser?.shipping_addresses?.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  Chưa có địa chỉ nào được thêm
+                </div>
+              ) : (
+                chosenUser?.shipping_addresses?.map((address, index) => (
+                  <div 
+                    key={index}
+                    className="p-3 mb-2 border rounded cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleSelectAddress(address)}
+                  >
+                    <div className="font-semibold">{chosenUser.name} - {chosenUser.phone}</div>
+                    <div className="mt-1 text-gray-600">{address.address}</div>
+                    {address.is_default === 1 && (
+                      <span className="inline-block px-2 py-1 mt-1 text-xs text-blue-600 bg-blue-100 rounded">Mặc định</span>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

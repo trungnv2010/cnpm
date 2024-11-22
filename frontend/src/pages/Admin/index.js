@@ -4,6 +4,7 @@ import BarChart from "./dashboard/BarChart";
 import {
   useGetRevenueStatisticsQuery,
   useGetTopSellingProductsQuery,
+  useGetDailySalesQuery,
 } from "@/service";
 import {
   format,
@@ -20,6 +21,14 @@ import {
 
 const Admin = () => {
   const [periodStatistics, setPeriodStatistics] = useState("7_days");
+  const {
+    data: dataDailySalesRaw,
+    isLoading: isLoadingDailySales,
+    error: errorDailySales,
+  } = useGetDailySalesQuery({ period: periodStatistics });
+  const dataDailySales = dataDailySalesRaw?.sale_today;
+  console.log(dataDailySales);
+  console.log(dataDailySalesRaw);
   const {
     data: dataRevenueStatisticsRaw,
     isLoading,
@@ -89,111 +98,43 @@ const Admin = () => {
   };
   const labelsStatistic = getLabels(periodStatistics);
 
-  //Top sản phẩm
-  const products = [
-    {
-      rank: 1,
-      name: "Áo 3 lỗ thun kẻ chéo đen trắng - M",
-      code: "A036-M",
-      quantity: 1,
-    },
-    {
-      rank: 2,
-      name: "Áo phông croptop trắng mix hồng - S",
-      code: "CROPTOP04-S",
-      quantity: 1,
-    },
-    {
-      rank: 3,
-      name: "Quần jean xám mài đen mix rách - L",
-      code: "DARIM F702-L",
-      quantity: 1,
-    },
-    {
-      rank: 4,
-      name: "Quần HIPHOP umi đen mix túi hộp kèm - M",
-      code: "LIMAN 2019-M",
-      quantity: 1,
-    },
-    {
-      rank: 5,
-      name: "Quần jean be siêu loang - L",
-      code: "FJIA02-L",
-      quantity: 1,
-    },
-    {
-      rank: 6,
-      name: "Áo 3 lỗ thun kẻ chéo đen trắng - M",
-      code: "A036-M",
-      quantity: 1,
-    },
-    {
-      rank: 7,
-      name: "Áo phông croptop trắng mix hồng - S",
-      code: "CROPTOP04-S",
-      quantity: 1,
-    },
-    {
-      rank: 8,
-      name: "Quần jean xám mài đen mix rách - L",
-      code: "DARIM F702-L",
-      quantity: 1,
-    },
-    {
-      rank: 9,
-      name: "Quần HIPHOP umi đen mix túi hộp kèm - M",
-      code: "LIMAN 2019-M",
-      quantity: 1,
-    },
-    {
-      rank: 10,
-      name: "Quần jean be siêu loang - L",
-      code: "FJIA02-L",
-      quantity: 1,
-    },
-  ];
 
   const { data: dataTopSellingProductsRaw, isLoading: isLoadingTopSelling } =
     useGetTopSellingProductsQuery({ period: "this_year" });
   const [periodTopSelling, setPeriodTopSelling] = useState("this_year");
-  // const dataTopSelling = dataTopSellingProductsRaw.top_selling_products;
   const dataTopSelling = dataTopSellingProductsRaw?.top_selling_products;
   return (
     <>
-      <div className="bg-gray-200">
+      {/* t muốn căn giữa */}
+      <div className="bg-gray-200 ">
         <HeaderAdmin title="Tổng quan" />
-        <div className="max-w-[calc(100%-1rem)] grid grid-cols-5 gap-x-6 gap-y-6">
+        <div className="max-w-[calc(100%-4rem)] grid grid-cols-5 gap-x-6 gap-y-6">
           {/*két quả kinh doanh*/}
-          <div class=" mx-auto   p-4 border border-gray-200 rounded-md shadow-sm bg-white col-span-3 w-full">
+          <div class=" mx-auto  p-4 border border-gray-200 rounded-md shadow-sm bg-white col-span-2 w-full pb-10">
             <div class="flex justify-between items-center mb-4">
-              <h2 class="text-lg font-bold uppercase ">kết quả kinh doanh</h2>
+              <h2 class="text-lg font-bold uppercase ">kết quả kinh doanh trong ngày</h2>
               <div class="relative">
-                <select class="block appearance-none w-full bg-white border border-gray-300  py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500">
-                  <option>Tất cả chi nhánh</option>
-                  <option>Chi nhánh 1</option>
-                  <option>Chi nhánh 2</option>
-                </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    class="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                  </svg>
+                
                 </div>
               </div>
             </div>
 
             <div className="border-t-2 border-gray-400"></div>
 
-            <div class="flex flex-col items-center mt-3 justify-center text-center text-black">
-              <p>Main content</p>
+            <div class="flex flex-1 h-full  items-center justify-center text-center text-black ">
+              {isLoadingDailySales && <p>Đang tải dữ liệu...</p>}
+              {!isLoadingDailySales && <h1 className="font-medium text-red-500 text-7xl">{dataDailySalesRaw?.sales_today}đ</h1>}
+              {errorDailySales && (
+                <h1 className="font-bold text-red-500">
+                  Có lỗi xảy ra: {errorDailySales.message}
+                </h1>
+              )} 
             </div>
           </div>
 
           {/* top sản phẩm */}
-          <div class=" mx-auto  p-4 border border-gray-200 rounded-md shadow-sm bg-white  w-full col-span-2  overflow-y-auto h-[18rem]">
+          <div class=" mx-auto  p-4 border border-gray-200 rounded-md shadow-sm bg-white  w-full col-span-3  overflow-y-auto h-[18rem] ">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-lg font-bold uppercase ">Top sản phẩm</h2>
               <div class="relative">
@@ -218,13 +159,13 @@ const Admin = () => {
 
             {isLoadingTopSelling && <p>Đang tải dữ liệu...</p>}
             {!isLoading && (
-              <div class="flex flex-row items-center mt-3 text-black">
+              <div class="flex flex-row items-center mt-3 text-black w-full">
                 {/* <div className="p-4 bg-white rounded shadow-md"> */}
-                <ul>
+                <ul className="w-full">
                   {dataTopSelling?.map((product, index) => (
                     <li
                       key={product.id}
-                      className="flex items-center justify-between py-2 border-b last:border-b-0"
+                      className="flex items-center justify-between py-2 border-b last:border-b-0 w-full "
                     >
                       <div className="flex items-center">
                         <span
