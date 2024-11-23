@@ -1,5 +1,5 @@
 import { HeaderAdmin } from "@/components";
-import { useGetSearchCustomerQuery } from "@/service";
+import { useGetSearchCustomerQuery, useSearchProductQuery } from "@/service";
 import { useState, useEffect, useRef } from "react";
 import SearchProducts from "./SearchProducts";
 
@@ -7,13 +7,20 @@ const Orders = () => {
   const choice = "orders";
   //tìm kiếm khách hàng
   const [searchParam, setSearchParam] = useState("");
+  const [searchProduct, setSearchProduct] = useState("");
   const [addressSelected, setAddressSelected] = useState({});
   const listUserDropDownRef = useRef();
+  const listProductDropDownRef = useRef();
   const [listUser, setListUser] = useState(false);
   const [chosenUser, setChosenUser] = useState({});
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchParam);
+  const [debouncedSearchProduct, setDebouncedSearchProduct] = useState(searchProduct);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showAddNewAddress, setShowAddNewAddress] = useState(false);
+  const [chosenProduct, setChosenProduct] = useState({});
+  const [listProduct, setListProduct] = useState(false);
+
+
   const [newAddress, setNewAddress] = useState({
     address: '',
     is_default: 0
@@ -29,12 +36,18 @@ const Orders = () => {
       !listUserDropDownRef.current.contains(event.target)
     ) {
       setListUser(false);
-    }
+    } else setListUser(true);
   };
 
   const handleClickInput = () => {
     if (searchParam === "") {
       setListUser(true);
+    }
+  };
+
+  const handleClickInputProduct = () => {
+    if (searchProduct === "") {
+      setListProduct(true);
     }
   };
 
@@ -45,16 +58,33 @@ const Orders = () => {
       (address) => address.is_default === 1
     ));
   };
+
+  const handleChooseProduct = (product) => {
+    setChosenProduct(product);
+    setListProduct(false);
+  };
+
   const handleCancelChooseUser = () => {
     setChosenUser({});
   };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideSearchUser);
+    document.addEventListener("mousedown", handleClickOutsideSearchProduct);
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideSearchUser);
+      document.removeEventListener("mousedown", handleClickOutsideSearchProduct);
     };
   }, []);
+
+  const handleClickOutsideSearchProduct = (event) => {
+    if (
+      listProductDropDownRef.current &&
+      !listProductDropDownRef.current.contains(event.target)
+    ) {
+      setListProduct(false);
+    } else setListProduct(true);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -64,11 +94,24 @@ const Orders = () => {
     return () => clearTimeout(timer);
   }, [searchParam]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchProduct(searchProduct);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchProduct]);
+
   //Lấy data khách hàng
   const { data: dataCustomerRaw } = useGetSearchCustomerQuery({
     query: debouncedSearchTerm,
   });
   const dataCustomer = dataCustomerRaw?.data;
+
+  const {data: dataProductRaw} = useSearchProductQuery({
+    query: debouncedSearchProduct,
+  });
+  const dataProduct = dataProductRaw?.data;
+  console.log(dataProduct);
 
   const handleChangeAddress = () => {
     
@@ -254,7 +297,7 @@ const Orders = () => {
               <h2 className="text-lg font-bold ">Thông tin sản phẩm</h2>
               <div className="relative"></div>
             </div>
-            <div className="relative w-full mb-4">
+            <div className="relative w-full mb-4" ref={listProductDropDownRef}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -272,11 +315,33 @@ const Orders = () => {
               <input
                 type="text"
                 placeholder="Tìm kiếm theo tên , mã,.."
+                onChange={(e) => setSearchProduct(e.target.value)}
+                onClick={handleClickInputProduct}
                 className="w-full p-2 pl-8 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              
-              <SearchProducts/>
-              
+                {listProduct && (
+                  <ul className="absolute left-0 right-0 w-full mt-1 overflow-y-auto bg-white border shadow-lg max-h-60">
+                    {dataProduct.map((product, index) => (
+                      <li key={index} className="flex items-center w-full gap-3 p-2 cursor-pointer hover:bg-gray-200" onClick={() => handleChooseProduct(product)}>
+                        <div>
+                          <img src={product.image_path} alt={product.name} className="w-20 h-20 rounded" />
+                        </div>
+                        <div className="flex flex-col flex-1">
+                          <p className="mb-2 text-2xl font-semibold">{product.name}</p>
+                          <p className="text-gray-500">{product.description}</p>
+                        </div>
+                        <div >
+                          <p className="font-semibold">{product.price}đ</p>
+                          <p className="text-gray-500">Tồn: {product.quantity} </p>
+                    
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}  
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="mb-2 text-2xl font-semibold">{chosenProduct.name}</p>
             </div>
             
           </div>

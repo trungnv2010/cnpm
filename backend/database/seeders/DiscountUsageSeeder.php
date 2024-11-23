@@ -12,6 +12,6 @@ class DiscountUsageSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\DiscountUsage::factory()->count(50)->create();
+        // \App\Models\DiscountUsage::factory()->count(50)->create();
     }
 }
