@@ -108,9 +108,9 @@ const Admin = () => {
       {/* t muốn căn giữa */}
       <div className="bg-gray-200 ">
         <HeaderAdmin title="Tổng quan" />
-        <div className="max-w-[calc(100%-1rem)] grid grid-cols-5 gap-x-6 gap-y-6 ">
+        <div className="max-w-[calc(100%-1rem)] grid grid-cols-3 gap-x-6 gap-y-6 bg-gray-200 ">
           {/*két quả kinh doanh*/}
-          <div class=" mx-auto  p-4 border border-gray-200 rounded-md shadow-sm bg-white col-span-2 w-full pb-10">
+          <div class=" mx-auto  p-4 border border-gray-200 rounded-md shadow-sm bg-white col-span-1 w-full pb-10">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-lg font-bold uppercase ">kết quả kinh doanh trong ngày</h2>
               <div class="relative">
@@ -134,7 +134,7 @@ const Admin = () => {
           </div>
 
           {/* top sản phẩm */}
-          <div class=" mx-auto  p-4 border border-gray-200 rounded-md shadow-sm bg-white  w-full col-span-3  overflow-y-auto h-[18rem] ">
+          <div class=" mx-auto  p-4 border border-gray-200 rounded-md shadow-sm bg-white  w-full col-span-4  overflow-y-auto h-[18rem] ">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-lg font-bold uppercase ">Top sản phẩm</h2>
               <div class="relative">
@@ -260,7 +260,7 @@ const Admin = () => {
 
             <div className="border-t-2 border-gray-400"></div>
 
-            <div class="flex flex-col items-center mt-3 justify-center text-center text-black">
+            <div class="flex flex-col items-center mt-3 justify-center text-center text-black ">
               {/* <p>Main content</p> */}
             </div>
           </div>

@@ -15,7 +15,7 @@ const AdminLayout = () => {
 
   return (
     <AuthWrapper requiredRole="admin">
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-200">
       {/* Sidebar */}
       <div className="fixed inset-y-0 left-0 w-64 text-white bg-purple-900">
         <div className="p-6">
@@ -104,7 +104,7 @@ const AdminLayout = () => {
           </nav>
         </div>
       </div>
-      <div className="flex h-screen bg-gray-50">
+      <div className="flex h-screen ">
         {/* Sidebar */}
         <div className="fixed inset-y-0 left-0 w-64 text-white shadow-xl bg-gradient-to-b from-purple-800 to-purple-900">
           <div className="p-6">
@@ -112,7 +112,7 @@ const AdminLayout = () => {
             <nav className="space-y-3">
               <Link
                 to="/admin"
-                className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-purple-700 hover:translate-x-1"
+                className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-yellow-400 hover:translate-x-1"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@ const AdminLayout = () => {
               </Link>
               <div className="space-y-1">
                 <div
-                  className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg cursor-pointer hover:bg-purple-700 hover:translate-x-1"
+                  className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg cursor-pointer hover:bg-yellow-400 hover:translate-x-1"
                   onClick={() => setIsOpenOrder(!isOpenOrder)}
                 >
                   <svg
@@ -172,19 +172,19 @@ const AdminLayout = () => {
                   <div className="pl-8 space-y-1">
                     <Link
                       to="/admin/orders"
-                      className="flex items-center px-4 py-2 text-sm transition-all duration-300 rounded-lg hover:bg-purple-700"
+                      className="flex items-center px-4 py-2 text-sm transition-all duration-300 rounded-lg hover:bg-yellow-400"
                     >
                       Tạo đơn và giao hàng
                     </Link>
                     <Link
                       to="/admin/orders/processing"
-                      className="flex items-center px-4 py-2 text-sm transition-all duration-300 rounded-lg hover:bg-purple-700"
+                      className="flex items-center px-4 py-2 text-sm transition-all duration-300 rounded-lg hover:bg-yellow-400"
                     >
                       Danh sách đơn hàng
                     </Link>
                     <Link
                       to="/admin/orders/completed"
-                      className="flex items-center px-4 py-2 text-sm transition-all duration-300 rounded-lg hover:bg-purple-700"
+                      className="flex items-center px-4 py-2 text-sm transition-all duration-300 rounded-lg hover:bg-yellow-400"
                     >
                       Khách trả hàng
                     </Link>
@@ -193,7 +193,7 @@ const AdminLayout = () => {
               </div>
               <Link
                 to="/admin/products"
-                className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-purple-700 hover:translate-x-1"
+                className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-yellow-400 hover:translate-x-1"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +213,7 @@ const AdminLayout = () => {
               </Link>
               <Link
                 to="/admin/test"
-                className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-purple-700 hover:translate-x-1"
+                className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-yellow-400 hover:translate-x-1"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -236,15 +236,16 @@ const AdminLayout = () => {
         </div>
 
       {/* Main Content */}
-      <div className="flex-1 ml-64">
+      <div className="flex-1 ml-64 bg-gray-200">
         {/* Top Navbar */}
         
 
         {/* Page Content */}
-        <div className="p-6 mt-16">
+        <div className="p-8 mt-16 bg-gray-200">
           <Outlet />
         </div>
       </div>
+    </div>
     </div>
     </AuthWrapper>
   );

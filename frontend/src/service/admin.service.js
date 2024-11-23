@@ -35,6 +35,13 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         params:{query},
       }),
     }),
+    getSearchProducts: builder.query({
+      query:({query})=>({
+        url:"products/search",
+        method:"get",
+        params:{query},
+      }),
+    }),
   }),
 });
 
@@ -43,5 +50,6 @@ export const {
   useGetRevenueStatisticsQuery,
   useGetPendingOrdersQuery,
   useGetTopSellingProductsQuery,
-  useGetSearchCustomerQuery
+  useGetSearchCustomerQuery,
+  useGetSearchProductsQuery
 } = adminApiSlice;

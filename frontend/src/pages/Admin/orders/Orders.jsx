@@ -1,6 +1,7 @@
 import { HeaderAdmin } from "@/components";
 import { useGetSearchCustomerQuery } from "@/service";
 import { useState, useEffect, useRef } from "react";
+import SearchProducts from "./SearchProducts";
 
 const Orders = () => {
   const choice = "orders";
@@ -95,7 +96,6 @@ const Orders = () => {
   const handleSubmitNewAddress = () => {
     // TODO: Implement API call to save new address
     // After successful save:
-    console.log(newAddress);
     setChosenUser({
       ...chosenUser,
       shipping_addresses: [...chosenUser.shipping_addresses, newAddress]
@@ -239,11 +239,16 @@ const Orders = () => {
                 </div>
               </div>
             )}
+            
+
+            
           </div>
         </div>
 
+        
+
         {/*thong tin san pham*/}
-        <div className="w-full col-span-6 p-4 mx-auto bg-white border border-gray-200 rounded-md shadow-sm">
+        {/* <div className="w-full col-span-6 p-4 mx-auto bg-white border border-gray-200 rounded-md shadow-sm">
           <div className="w-full col-span-4 p-4 mx-auto bg-white border border-gray-200 rounded-md shadow-sm ">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold ">Thông tin sản phẩm</h2>
@@ -269,9 +274,17 @@ const Orders = () => {
                 placeholder="Tìm kiếm theo tên , mã,.."
                 className="w-full p-2 pl-8 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+              
+              <SearchProducts/>
+              
             </div>
+            
           </div>
-        </div>
+        </div> */}
+        <SearchProducts/>
+
+
+        
 
         <div className="w-full col-span-6 p-4 mx-auto bg-white border border-gray-200 rounded-md shadow-sm">
           <p>Đóng gói và giao hàng</p>
@@ -310,7 +323,7 @@ const Orders = () => {
               {/* Button to add new address */}
               <button 
                 onClick={handleShowAddNew}
-                className="w-full p-3 mb-4 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 flex items-center justify-center gap-2"
+                className="flex items-center justify-center w-full gap-2 p-3 mb-4 text-blue-600 border border-blue-600 rounded hover:bg-blue-50"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -350,7 +363,7 @@ const Orders = () => {
 
               {/* Existing addresses list */}
               {chosenUser?.shipping_addresses?.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
+                <div className="py-8 text-center text-gray-500">
                   Chưa có địa chỉ nào được thêm
                 </div>
               ) : (
