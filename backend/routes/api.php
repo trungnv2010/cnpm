@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DiscountController;
-
+use App\Http\Controllers\OrderController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -34,6 +34,9 @@ Route::prefix('admin')->middleware(CheckRole::class . ':admin')->group(function 
     });
     Route::get('/users', [UserController::class, 'getUserByRole']);
     Route::get('/search', [AdminController::class, 'search']);
+    Route::prefix('orders')->group(function () {
+        Route::post('/create', [OrderController::class, 'createOrder']);
+    });
 });
 
 Route::prefix('products')->group(function () {

@@ -13,6 +13,7 @@ class Order extends Model
         'assigned_staff_id',
         'status',
         'total_amount',
+        'address',
         'payment_status',
         'delivery_status',
         'completed_at',

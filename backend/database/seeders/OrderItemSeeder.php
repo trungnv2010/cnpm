@@ -12,6 +12,6 @@ class OrderItemSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\OrderItem::factory(50)->create();
+        // \App\Models\OrderItem::factory(50)->create();
     }
 }
