@@ -42,6 +42,13 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         params:{query},
       }),
     }),
+    createOrder: builder.mutation({
+      query: ( body ) => ({
+        url: "admin/orders/create",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -51,5 +58,6 @@ export const {
   useGetPendingOrdersQuery,
   useGetTopSellingProductsQuery,
   useGetSearchCustomerQuery,
-  useGetSearchProductsQuery
+  useGetSearchProductsQuery,
+  useCreateOrderMutation,
 } = adminApiSlice;

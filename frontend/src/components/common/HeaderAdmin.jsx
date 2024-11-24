@@ -57,7 +57,7 @@ const HeaderAdmin = ({ title }) => {
                             {/* <!-- Active: "bg-gray-100 outline-none", Not Active: "" --> */}
                             <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">Hồ sơ của bạn</a>
                             <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Cài đặt</a>
-                            <button  href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Đăng xuất</button>
+                            <button onClick={handleLogout}  href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Đăng xuất</button>
                         </div>}
                     </div>
 

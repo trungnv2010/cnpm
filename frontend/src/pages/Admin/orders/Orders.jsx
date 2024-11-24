@@ -1,5 +1,5 @@
 import { HeaderAdmin } from "@/components";
-import { useGetSearchCustomerQuery, useSearchProductQuery } from "@/service";
+import { useGetSearchCustomerQuery, useCreateOrderMutation } from "@/service";
 import { useState, useEffect, useRef } from "react";
 import SearchProducts from "./SearchProducts";
 
@@ -17,8 +17,8 @@ const Orders = () => {
   const [debouncedSearchProduct, setDebouncedSearchProduct] = useState(searchProduct);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showAddNewAddress, setShowAddNewAddress] = useState(false);
-  const [chosenProduct, setChosenProduct] = useState({});
-  const [listProduct, setListProduct] = useState(false);
+  const [createOrder]=useCreateOrderMutation()
+
 
 
   const [newAddress, setNewAddress] = useState({
@@ -45,11 +45,11 @@ const Orders = () => {
     }
   };
 
-  const handleClickInputProduct = () => {
-    if (searchProduct === "") {
-      setListProduct(true);
-    }
-  };
+  // const handleClickInputProduct = () => {
+  //   if (searchProduct === "") {
+  //     setListProduct(true);
+  //   }
+  // };
 
   const handleChooseUser = (customer) => {
     setChosenUser(customer);
@@ -59,10 +59,10 @@ const Orders = () => {
     ));
   };
 
-  const handleChooseProduct = (product) => {
-    setChosenProduct(product);
-    setListProduct(false);
-  };
+  // const handleChooseProduct = (product) => {
+  //   setChosenProduct(product);
+  //   setListProduct(false);
+  // };
 
   const handleCancelChooseUser = () => {
     setChosenUser({});
@@ -70,21 +70,21 @@ const Orders = () => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideSearchUser);
-    document.addEventListener("mousedown", handleClickOutsideSearchProduct);
+    // document.addEventListener("mousedown", handleClickOutsideSearchProduct);
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideSearchUser);
-      document.removeEventListener("mousedown", handleClickOutsideSearchProduct);
+      // document.removeEventListener("mousedown", handleClickOutsideSearchProduct);
     };
   }, []);
 
-  const handleClickOutsideSearchProduct = (event) => {
-    if (
-      listProductDropDownRef.current &&
-      !listProductDropDownRef.current.contains(event.target)
-    ) {
-      setListProduct(false);
-    } else setListProduct(true);
-  };
+  // const handleClickOutsideSearchProduct = (event) => {
+  //   if (
+  //     listProductDropDownRef.current &&
+  //     !listProductDropDownRef.current.contains(event.target)
+  //   ) {
+  //     setListProduct(false);
+  //   } else setListProduct(true);
+  // };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -107,11 +107,7 @@ const Orders = () => {
   });
   const dataCustomer = dataCustomerRaw?.data;
 
-  const {data: dataProductRaw} = useSearchProductQuery({
-    query: debouncedSearchProduct,
-  });
-  const dataProduct = dataProductRaw?.data;
-  console.log(dataProduct);
+
 
   const handleChangeAddress = () => {
     
@@ -146,6 +142,30 @@ const Orders = () => {
     setShowAddNewAddress(false);
     setNewAddress({ address: '', is_default: 0 });
   };
+
+  //Tạo đơn hàng
+  const [totalMoney,setTotalMoney]=useState(0)
+  const [chosenProducts,setChosenProducts]=useState([])
+  const handleStateFromSearchProduts=(totalMoneyState,chosenProductsState)=>{
+    setTotalMoney(totalMoneyState)
+    setChosenProducts(chosenProductsState)
+  }
+  const handleCreateOrder=async ()=>{
+    const order_items = chosenProducts.map((product) => ({
+      "product_id": product.id,
+      "price_at_purchase": parseFloat(product.price), // Chuyển giá thành số (nếu cần)
+      "quantity": product.quantity,
+    }));
+    let response = ""
+    response = await createOrder({ "order" : {
+                                      "user_id": chosenUser?.id,
+                                      "total_amount" : totalMoney,
+                                      "address" : addressSelected.address
+                                  },
+                                      "user_id": chosenUser?.id,
+                                      "discount_id": 2,
+                                      "order_items": order_items })
+  }
 
   //
   return (
@@ -346,7 +366,7 @@ const Orders = () => {
             
           </div>
         </div> */}
-        <SearchProducts/>
+        <SearchProducts onStateChange={handleStateFromSearchProduts}/>
 
 
         
@@ -364,7 +384,7 @@ const Orders = () => {
 
             {/* Nút Tạo đơn hàng (F1) */}
             <div className="relative">
-              <button className="flex items-center p-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <button onClick={handleCreateOrder} className="flex items-center p-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 Tạo đơn hàng (F1)
               </button>
             </div>

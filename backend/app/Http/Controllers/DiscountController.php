@@ -58,7 +58,7 @@ class DiscountController extends Controller
             })->get();
 
         if ($discounts->isEmpty()) {
-            return null;
+            return response()->json(['message' => "Không có mã giảm giá nào", 'code' => '404'], 404);
         }
 
         return response()->json(['data' => $discounts, 'code' => '200'], 200);
