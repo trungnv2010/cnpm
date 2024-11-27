@@ -105,7 +105,7 @@ const Admin = () => {
   const dataTopSelling = dataTopSellingProductsRaw?.top_selling_products;
   return (
     <>
-      {/* t muốn căn giữa */}
+
       <div className="bg-gray-200 ">
         <HeaderAdmin title="Tổng quan" />
         <div className="max-w-[calc(100%-1rem)] grid grid-cols-3 gap-x-6 gap-y-6 bg-gray-200 ">
