@@ -8,6 +8,7 @@ import Products from "@/pages/Admin/Products/Products";
 import Test from "@/pages/Admin/Test/Test";
 import User from "@/pages/User"
 import ShopPage from "../pages/User/ShopPage/ShopPage";
+import Product from "../pages/User/Product/Product";
 
 const Home = lazy(() => import("@/pages/HomePage/Home"));
 
@@ -50,6 +51,7 @@ function AppRoutes() {
         <Route path="/user">
           <Route index element={<User/>}/>
           <Route path="shoppage" element={<ShopPage/>}/>
+          <Route path="product" element={<Product/>}/>
         </Route>
 
         <Route path="/" element={<Home />} />

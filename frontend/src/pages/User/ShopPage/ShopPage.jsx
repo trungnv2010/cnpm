@@ -1,5 +1,6 @@
 import Navbar from "../Navbar"
 import Card from "../../../components/common/Card"
+import UserFooter from "../../../components/common/UserFooter"
 const ShopPage=()=>{
     return (<>
         <div className="bg-gray-100 ">
@@ -41,7 +42,7 @@ const ShopPage=()=>{
                     
                 </div>
                 
-                <div class="col-span-6 flex flex-col mr-32">
+                <div class="col-span-6 flex flex-col mr-32 mb-48">
                     <div className="self-end mb-8">
                         <button className="p-2 border-2 border-black">Click vào đây</button>
                     </div>
@@ -54,8 +55,20 @@ const ShopPage=()=>{
                         <Card name="Product" price={90}></Card>
                         <Card name="Product" price={90}></Card>
                     </div>
+                    
+                    <div className="flex justify-center flex-1 mt-6 ml-32">
+                        <button className="p-2 px-24 border border-black bg-10gray-200">Xem them san pham</button>
+                    </div>
+                    
                 </div>
+
+                
+                    
+
             </div>
+            <UserFooter/>
+
+            
         </div>
     </>)
 }

@@ -30,7 +30,7 @@ const Navbar = () => {
             <span className="text-lg font-bold">ACORP</span>
             <div className="flex space-x-6 ">
                 <Link to="/user/ShopPage" className="hover:underline">Thương hiệu</Link>
-                <Link href="#" className="hover:underline">Nam</Link>
+                <Link to="/user/Product" className="hover:underline">Nam</Link>
                 <Link href="#" className="hover:underline">Nữ</Link>
                 <Link href="#" className="hover:underline">Luxury</Link>
                 <Link href="#" className="hover:underline">Đồng hồ cũ</Link>
