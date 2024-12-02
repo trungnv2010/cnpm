@@ -47,14 +47,17 @@ class DiscountController extends Controller
 
     public function getActiveDiscountsByOrderAndUser(Request $request)
     {
-        $order = $request->order;
-        $user = $request->user;
-        $discounts = Discount::active()->where('min_purchase_amount', '<=', $order['total_amount'])
-            ->where('usage_limit', '>', function ($query) use ($user) {
+        $totalAmount = $request->input('total_amount');
+        $userId = $request->input('user_id');
+        if ($userId == null || $totalAmount == null) {
+            return response()->json(['message' => "Không có mã giảm giá nào", 'code' => '404'], 404);
+        }
+        $discounts = Discount::active()->where('min_purchase_amount', '<=', $totalAmount)
+            ->where('usage_limit', '>', function ($query) use ($userId) {
                 $query->selectRaw('COUNT(*)')
                     ->from('discount_usages')
                     ->where('discount_id', '=', 'discounts.id')
-                    ->where('user_id', '=', $user['user_id']);
+                    ->where('user_id', '=', $userId);
             })->get();
 
         if ($discounts->isEmpty()) {

@@ -48,10 +48,6 @@ class OrderController extends Controller
                 if ($discount->usage_limit > 0) {
                     $discount->decrement('usage_limit', 1);
                 }
-                DiscountUsage::create([
-                    'user_id' => $request->user_id,
-                    'discount_id' => $request->discount_id,
-                ]);
             }
 
 
@@ -72,6 +68,10 @@ class OrderController extends Controller
 
     public function searchOrder(Request $request) {
         $keyword = $request->input('query');
+        $filter = $request->input('filter');
+        if ($filter == 'all'){
+            
+        }
         if (empty($keyword)) {
             $orders = Order::inRandomOrder()->limit(20)->get();
         } else {

@@ -14,16 +14,73 @@ const Orders = () => {
   const [listUser, setListUser] = useState(false);
   const [chosenUser, setChosenUser] = useState({});
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchParam);
-  const [debouncedSearchProduct, setDebouncedSearchProduct] = useState(searchProduct);
+  const [debouncedSearchProduct, setDebouncedSearchProduct] =
+    useState(searchProduct);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showAddNewAddress, setShowAddNewAddress] = useState(false);
-  const [createOrder]=useCreateOrderMutation()
+  const [createOrder] = useCreateOrderMutation();
+  const [provinces, setProvinces] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [showProvinces, setShowProvinces] = useState(false);
+  const [districts, setDistricts] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [showDistricts, setShowDistricts] = useState(false);
+  const [wards, setWards] = useState([]);
+  const [selectedWard, setSelectedWard] = useState(null);
+  const [showWards, setShowWards] = useState(false);
+  const [numberHouse, setNumberHouse] = useState("");
 
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const response = await fetch("https://provinces.open-api.vn/api/p/");
+        const data = await response.json();
+        setProvinces(data);
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      }
+    };
+    fetchProvinces();
+  }, []);
 
+  useEffect(() => {
+    const fetchDistricts = async () => {
+      if (selectedProvince) {
+        try {
+          const response = await fetch(
+            `https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`
+          );
+          const data = await response.json();
+          setDistricts(data.districts);
+        } catch (error) {
+          console.error("Error fetching districts:", error);
+        }
+      }
+    };
+    fetchDistricts();
+  }, [selectedProvince]);
+
+  // Fetch wards when district is selected
+  useEffect(() => {
+    const fetchWards = async () => {
+      if (selectedDistrict) {
+        try {
+          const response = await fetch(
+            `https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`
+          );
+          const data = await response.json();
+          setWards(data.wards);
+        } catch (error) {
+          console.error("Error fetching wards:", error);
+        }
+      }
+    };
+    fetchWards();
+  }, [selectedDistrict]);
 
   const [newAddress, setNewAddress] = useState({
-    address: '',
-    is_default: 0
+    address: "",
+    is_default: 0,
   });
 
   const handleChangeInput = (e) => {
@@ -54,9 +111,9 @@ const Orders = () => {
   const handleChooseUser = (customer) => {
     setChosenUser(customer);
     setListUser(false);
-    setAddressSelected(customer?.shipping_addresses?.find(
-      (address) => address.is_default === 1
-    ));
+    setAddressSelected(
+      customer?.shipping_addresses?.find((address) => address.is_default === 1)
+    );
   };
 
   // const handleChooseProduct = (product) => {
@@ -65,6 +122,7 @@ const Orders = () => {
   // };
 
   const handleCancelChooseUser = () => {
+    setAddressSelected(null)
     setChosenUser({});
   };
 
@@ -76,6 +134,25 @@ const Orders = () => {
       // document.removeEventListener("mousedown", handleClickOutsideSearchProduct);
     };
   }, []);
+
+  const handleSaveNewAddress=()=>{
+    const newAddress = numberHouse + ', ' + wards[0].name + ',' + districts[0].name + ',' + provinces[0].name
+    setChosenUser({
+      ...chosenUser,
+      shipping_addresses: [...chosenUser.shipping_addresses, {address: newAddress, is_default: 0}],
+    });
+    setShowAddNewAddress(false)
+    setNumberHouse("")
+    
+    setDistricts([])
+    setWards([])
+    setSelectedProvince(null)
+    setSelectedDistrict(null)
+    setSelectedWard(null)
+    setShowProvinces(false)
+    setShowDistricts(false)
+    setShowWards(false)
+  }
 
   // const handleClickOutsideSearchProduct = (event) => {
   //   if (
@@ -107,14 +184,12 @@ const Orders = () => {
   });
   const dataCustomer = dataCustomerRaw?.data;
 
-
-
   const handleChangeAddress = () => {
-    
     setShowAddressModal(true);
   };
 
   const handleCloseModal = () => {
+    setShowAddNewAddress(false)
     setShowAddressModal(false);
   };
 
@@ -129,43 +204,48 @@ const Orders = () => {
 
   const handleCancelAddNew = () => {
     setShowAddNewAddress(false);
-    setNewAddress({ address: '', is_default: 0 });
+    setNewAddress({ address: "", is_default: 0 });
   };
 
   const handleSubmitNewAddress = () => {
-    // TODO: Implement API call to save new address
-    // After successful save:
     setChosenUser({
       ...chosenUser,
-      shipping_addresses: [...chosenUser.shipping_addresses, newAddress]
+      shipping_addresses: [...chosenUser.shipping_addresses, newAddress],
     });
     setShowAddNewAddress(false);
-    setNewAddress({ address: '', is_default: 0 });
+    setNewAddress({ address: "", is_default: 0 });
   };
 
   //Tạo đơn hàng
-  const [totalMoney,setTotalMoney]=useState(0)
-  const [chosenProducts,setChosenProducts]=useState([])
-  const handleStateFromSearchProduts=(totalMoneyState,chosenProductsState)=>{
-    setTotalMoney(totalMoneyState)
-    setChosenProducts(chosenProductsState)
-  }
-  const handleCreateOrder=async ()=>{
+  const [totalMoney, setTotalMoney] = useState(0);
+  const [chosenProducts, setChosenProducts] = useState([]);
+  const handleStateFromSearchProduts = (
+    totalMoneyState,
+    chosenProductsState
+  ) => {
+    setTotalMoney(totalMoneyState);
+    setChosenProducts(chosenProductsState);
+  };
+  const handleCreateOrder = async () => {
     const order_items = chosenProducts.map((product) => ({
-      "product_id": product.id,
-      "price_at_purchase": parseFloat(product.price), // Chuyển giá thành số (nếu cần)
-      "quantity": product.quantity,
+      product_id: product.id,
+      price_at_purchase: parseFloat(product.price), // Chuyển giá thành số (nếu cần)
+      quantity: product.quantity,
     }));
-    let response = ""
-    response = await createOrder({ "order" : {
-                                      "user_id": chosenUser?.id,
-                                      "total_amount" : totalMoney,
-                                      "address" : addressSelected.address
-                                  },
-                                      "user_id": chosenUser?.id,
-                                      "discount_id": 2,
-                                      "order_items": order_items })
-  }
+    let response = "";
+    response = await createOrder({
+      order: {
+        user_id: chosenUser?.id,
+        total_amount: totalMoney,
+        address: addressSelected.address,
+      },
+      user_id: chosenUser?.id,
+      discount_id: 2,
+      order_items: order_items,
+    });
+    console.log(response)
+  };
+  
 
   //
   return (
@@ -302,13 +382,8 @@ const Orders = () => {
                 </div>
               </div>
             )}
-            
-
-            
           </div>
         </div>
-
-        
 
         {/*thong tin san pham*/}
         {/* <div className="w-full col-span-6 p-4 mx-auto bg-white border border-gray-200 rounded-md shadow-sm">
@@ -366,14 +441,13 @@ const Orders = () => {
             
           </div>
         </div> */}
-        <SearchProducts onStateChange={handleStateFromSearchProduts}/>
+        <SearchProducts
+          onStateChange={handleStateFromSearchProduts}
+          addressSelected={addressSelected}
+          userId={chosenUser?.id}
+        />
 
-
-        
-
-        <div className="w-full col-span-6 p-4 mx-auto bg-white border border-gray-200 rounded-md shadow-sm">
-          <p>Đóng gói và giao hàng</p>
-        </div>
+      
 
         <div className="justify-end col-span-2 col-start-5">
           <div className="flex ml-40 space-x-4">
@@ -384,8 +458,11 @@ const Orders = () => {
 
             {/* Nút Tạo đơn hàng (F1) */}
             <div className="relative">
-              <button onClick={handleCreateOrder} className="flex items-center p-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                Tạo đơn hàng (F1)
+              <button
+                onClick={handleCreateOrder}
+                className="flex items-center p-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Tạo đơn hàng
               </button>
             </div>
           </div>
@@ -398,20 +475,42 @@ const Orders = () => {
             <div className="flex items-center justify-between p-4 border-b">
               <h3 className="text-lg font-semibold">Chọn địa chỉ giao hàng</h3>
               <button onClick={handleCloseModal}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
-            
+
             <div className="p-4 max-h-[400px] overflow-y-auto">
               {/* Button to add new address */}
-              <button 
+              <button
                 onClick={handleShowAddNew}
                 className="flex items-center justify-center w-full gap-2 p-3 mb-4 text-blue-600 border border-blue-600 rounded hover:bg-blue-50"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
                 </svg>
                 Thêm địa chỉ mới
               </button>
@@ -419,29 +518,197 @@ const Orders = () => {
               {showAddNewAddress && (
                 <div className="p-4 mb-4 border rounded-lg bg-gray-50">
                   <div className="mb-4">
-                    <label className="block mb-2 text-sm font-medium">Địa chỉ mới</label>
-                    <textarea
-                      value={newAddress.address}
-                      onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
-                      className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      rows="3"
-                      placeholder="Nhập địa chỉ..."
-                    />
-                  </div>
-                
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={handleCancelAddNew}
-                      className="px-4 py-2 text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
-                    >
-                      Hủy
-                    </button>
-                    <button
-                      onClick={handleSubmitNewAddress}
-                      className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
-                    >
-                      Lưu địa chỉ
-                    </button>
+                    <label className="block mb-2 text-lg font-medium">
+                      Địa chỉ mới
+                    </label>
+                    <div className="flex-1">
+                      <div className="mb-6">
+                        <div className="mb-4">
+                          <div
+                            className="border border-gray-300 rounded-lg p-3 pr-2 flex justify-between items-center cursor-pointer"
+                            onClick={() => setShowProvinces(!showProvinces)}
+                          >
+                            <span className="text-gray-600">
+                              {selectedProvince
+                                ? selectedProvince.name
+                                : "Chọn tỉnh/thành phố"}
+                            </span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d={
+                                  showProvinces
+                                    ? "M5 15l7-7 7 7"
+                                    : "M19 9l-7 7-7-7"
+                                }
+                              />
+                            </svg>
+                          </div>
+
+                          {showProvinces && (
+                            <div className="border border-gray-300 rounded-lg mt-1 max-h-60 overflow-auto">
+                              {provinces.map((province) => (
+                                <div
+                                  key={province.code}
+                                  className="p-3 border-b border-gray-200 cursor-pointer hover:bg-gray-50"
+                                  onClick={() => {
+                                    setSelectedProvince(province);
+                                    setSelectedDistrict(null);
+                                    setSelectedWard(null);
+                                    setShowProvinces(false);
+                                  }}
+                                >
+                                  {province.name}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* District Selector */}
+                        <div className="mb-4">
+                          <div
+                            className={`border border-gray-300 rounded-lg p-3 pr-2 flex justify-between items-center ${
+                              selectedProvince ? "cursor-pointer" : "opacity-50"
+                            }`}
+                            onClick={() =>
+                              selectedProvince &&
+                              setShowDistricts(!showDistricts)
+                            }
+                          >
+                            <span
+                              className={
+                                !selectedProvince
+                                  ? "text-gray-400"
+                                  : "text-gray-600"
+                              }
+                            >
+                              {selectedDistrict
+                                ? selectedDistrict.name
+                                : "Chọn quận/huyện"}
+                            </span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d={
+                                  showDistricts
+                                    ? "M5 15l7-7 7 7"
+                                    : "M19 9l-7 7-7-7"
+                                }
+                              />
+                            </svg>
+                          </div>
+
+                          {showDistricts && (
+                            <div className="border border-gray-300 rounded-lg mt-1 max-h-60 overflow-auto">
+                              {districts.map((district) => (
+                                <div
+                                  key={district.code}
+                                  className="p-3 border-b border-gray-200 cursor-pointer hover:bg-gray-50"
+                                  onClick={() => {
+                                    setSelectedDistrict(district);
+                                    setSelectedWard(null);
+                                    setShowDistricts(false);
+                                  }}
+                                >
+                                  {district.name}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Ward Selector */}
+                        <div>
+                          <div
+                            className={`border border-gray-300 rounded-lg p-3 pr-2 flex justify-between items-center ${
+                              selectedDistrict ? "cursor-pointer" : "opacity-50"
+                            }`}
+                            onClick={() =>
+                              selectedDistrict && setShowWards(!showWards)
+                            }
+                          >
+                            <span
+                              className={
+                                !selectedDistrict
+                                  ? "text-gray-400"
+                                  : "text-gray-600"
+                              }
+                            >
+                              {selectedWard
+                                ? selectedWard.name
+                                : "Chọn phường/xã"}
+                            </span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d={
+                                  showWards ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"
+                                }
+                              />
+                            </svg>
+                          </div>
+
+                          {showWards && (
+                            <div className="border border-gray-300 rounded-lg mt-1 max-h-60 overflow-auto">
+                              {wards.map((ward) => (
+                                <div
+                                  key={ward.code}
+                                  className="p-3 border-b border-gray-200 cursor-pointer hover:bg-gray-50"
+                                  onClick={() => {
+                                    setSelectedWard(ward);
+                                    setShowWards(false);
+                                  }}
+                                >
+                                  {ward.name}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Số nhà"
+                          value={numberHouse}
+                          onChange={(e)=>setNumberHouse(e.target.value)}
+                          className="mt-4 w-full p-3 border border-gray-300 rounded bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+
+                        <div className="flex items-center justify-between  gap-4">
+                          <button className="mt-4 p-3 flex-1 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          onClick={handleSaveNewAddress}>
+                            Lưu địa chỉ
+                          </button>
+                          <button onClick={handleCloseModal} className="mt-4 p-3 flex-1 text-black bg-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                            Hủy
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -453,15 +720,19 @@ const Orders = () => {
                 </div>
               ) : (
                 chosenUser?.shipping_addresses?.map((address, index) => (
-                  <div 
+                  <div
                     key={index}
                     className="p-3 mb-2 border rounded cursor-pointer hover:bg-gray-50"
                     onClick={() => handleSelectAddress(address)}
                   >
-                    <div className="font-semibold">{chosenUser.name} - {chosenUser.phone}</div>
+                    <div className="font-semibold">
+                      {chosenUser.name} - {chosenUser.phone}
+                    </div>
                     <div className="mt-1 text-gray-600">{address.address}</div>
                     {address.is_default === 1 && (
-                      <span className="inline-block px-2 py-1 mt-1 text-xs text-blue-600 bg-blue-100 rounded">Mặc định</span>
+                      <span className="inline-block px-2 py-1 mt-1 text-xs text-blue-600 bg-blue-100 rounded">
+                        Mặc định
+                      </span>
                     )}
                   </div>
                 ))

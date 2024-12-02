@@ -5,7 +5,7 @@ import AdminLayout from "@/components/navbar/AdminLayout";
 import Admin from "@/pages/Admin";
 import Orders from "@/pages/Admin/orders/Orders";
 import Products from "@/pages/Admin/Products/Products";
-import Test from "@/pages/Admin/Test/Test";
+import ListOrder from "../pages/Admin/orders/ListOrder";
 
 const Home = lazy(() => import("@/pages/HomePage/Home"));
 
@@ -40,9 +40,10 @@ function AppRoutes() {
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} /> 
-          <Route path="orders" element={<Orders />} />
+          <Route path="orders/create" element={<Orders />} />
+          <Route path="orders" element={<ListOrder />} />
           <Route path="products" element={<Products />} />
-          <Route path="test" element={<Test />} />
+          
         </Route>
 
         <Route path="/" element={<Home />} />

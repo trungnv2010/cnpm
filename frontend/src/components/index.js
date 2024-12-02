@@ -5,6 +5,7 @@ export {default as NotFound} from './common/NotFound'
 export {default as Popup} from './common/Popup'
 export {default as AuthWrapper} from './common/AuthWrapper'
 export {default as HeaderAdmin} from './common/HeaderAdmin'
+export {default as CustomTable} from './common/CustomTable'
 
 
 

@@ -49,6 +49,13 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         body,
       }),
     }),
+    getDiscountsActive: builder.query({
+      query: (params) => ({
+        url: "discounts/active",
+        method: "get",
+        params
+      }),
+    }),
   }),
 });
 
@@ -60,4 +67,5 @@ export const {
   useGetSearchCustomerQuery,
   useGetSearchProductsQuery,
   useCreateOrderMutation,
+  useGetDiscountsActiveQuery
 } = adminApiSlice;
