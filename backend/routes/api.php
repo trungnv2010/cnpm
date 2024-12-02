@@ -36,6 +36,7 @@ Route::prefix('admin')->middleware(CheckRole::class . ':admin')->group(function 
     Route::get('/search', [AdminController::class, 'search']);
     Route::prefix('orders')->group(function () {
         Route::post('/create', [OrderController::class, 'createOrder']);
+        Route::get('/search', [OrderController::class, 'searchOrder']);
     });
 });
 

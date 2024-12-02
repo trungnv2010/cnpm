@@ -8,12 +8,22 @@ class ProductController extends Controller
 {
     public function searchProduct(Request $request)
     {
-        $keyword = $request->input('query');
-        if (empty($keyword)) {
-            $products = Product::inRandomOrder()->limit(10)->get();
-        } else {
-            $products = Product::where('name', 'like', '%' . $keyword . '%')->get();
-        }
-        return response()->json(['data' => $products, 'code' => '200'], 200);
+        $query = Product::select('id', 'name', 'quantity', 'price',  'created_at')
+        ->get()
+        ->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'quantity' => $product->quantity,
+                'price' => $product->price,
+                'created_at' => $product->created_at,
+            ];
+        });
+
+        return response()->json([
+            'message' => 'Lấy danh sách sản phẩm thành công',
+            'data' => $query,
+            'code' => 200
+        ], 200);
     }
 }

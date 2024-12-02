@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 import { HeaderAdmin, CustomTable } from "@/components";
 import { useNavigate } from "react-router-dom";
+import { useGetSearchOrderQuery } from "@/service/admin.service";
 
 const ListOrder = () => {
   const navigate = useNavigate();
   const [tabActive, setTabActive] = useState("all");
+  const { data : dataOrder, isLoading, isError } = useGetSearchOrderQuery()
+
+  const orders = dataOrder?.data?.map(order => [
+    order.id,
+    new Date(order.created_at).toLocaleDateString('vi-VN'),
+    order.customer_name, 
+    order.status,
+    order.payment_status,
+    parseInt(order.total_amount).toFixed(0)
+  ]);
+ 
+    
   const title = ["Mã đơn hàng", "Ngày tạo đơn", "Tên khách hàng", "Trạng thái đơn hàng", "Trạng thái thanh toán", "Khách phải trả"];
-  const data = [
-    ["1234567890", "Nguyễn Văn A", "2021-01-01", "delivered", "paid", "1000000"],
-    ["1234567890", "Nguyễn Văn A", "2021-01-01", "canceled", "unpaid", "1000000"],
-    ["1234567890", "Nguyễn Văn A", "2021-01-01", "pending", "unpaid", "1000000"],
-    ["1234567890", "Nguyễn Văn A", "2021-01-01", "pending", "unpaid", "1000000"],
-    ["1234567890", "Nguyễn Văn A", "2021-01-01", "pending", "unpaid", "1000000"],
-  ];
+
   return (
     <div className=" w-full">
       <HeaderAdmin title="Danh sách đơn hàng" />
@@ -75,7 +82,9 @@ const ListOrder = () => {
             </button>
           </div>
         </div>
-        <CustomTable title={title} data={data} type='Orders'/>
+        {isLoading ? <div>Loading...</div> : isError ? <div>Error</div> : (
+          <CustomTable title={title} data={orders} type='Orders'/>
+        )}
       </div>
     </div>
   );

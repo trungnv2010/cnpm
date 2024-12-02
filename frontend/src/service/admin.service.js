@@ -56,6 +56,13 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         params
       }),
     }),
+    getSearchOrder: builder.query({
+      query: (params) => ({
+        url: "admin/orders/search",
+        method: "get",
+        params
+      }),
+    }),
   }),
 });
 
@@ -67,5 +74,6 @@ export const {
   useGetSearchCustomerQuery,
   useGetSearchProductsQuery,
   useCreateOrderMutation,
-  useGetDiscountsActiveQuery
+  useGetDiscountsActiveQuery,
+  useGetSearchOrderQuery
 } = adminApiSlice;

@@ -44,7 +44,7 @@ class OrderController extends Controller
                 ]);
 
                 $discount = Discount::find($request->discount_id);
-                
+
                 if ($discount->usage_limit > 0) {
                     $discount->decrement('usage_limit', 1);
                 }
@@ -66,16 +66,31 @@ class OrderController extends Controller
         }
     }
 
-    public function searchOrder(Request $request) {
-        $keyword = $request->input('query');
-        $filter = $request->input('filter');
-        if ($filter == 'all'){
-            
-        }
-        if (empty($keyword)) {
-            $orders = Order::inRandomOrder()->limit(20)->get();
-        } else {
-            $orders = Order::where('name', 'like', '%' . $keyword . '%')->get();
-        }
+    public function searchOrder(Request $request)
+    {
+        // Khởi tạo query với select cụ thể và relationship
+        $query = Order::with([
+            'user:id,name',  // Vẫn cần id để join, nhưng sẽ ẩn trong response
+            'assignedStaff:id,name'  // Vẫn cần id để join, nhưng sẽ ẩn trong response
+        ])
+        ->select('id', 'user_id', 'assigned_staff_id', 'status', 'payment_status', 'total_amount', 'created_at')
+        ->get()
+        ->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'status' => $order->status,
+                'payment_status' => $order->payment_status,
+                'total_amount' => $order->total_amount,
+                'created_at' => $order->created_at,
+                'customer_name' => $order->user->name,
+                'staff_name' => $order->assignedStaff ? $order->assignedStaff->name : null
+            ];
+        });
+
+        return response()->json([
+            'message' => 'Lấy danh sách đơn hàng thành công',
+            'data' => $query,
+            'code' => 200
+        ], 200);
     }
 }

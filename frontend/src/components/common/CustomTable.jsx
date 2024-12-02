@@ -45,7 +45,7 @@ const CustomTable = (props) => {
                     }`}
                     key={index}
                   >
-                    {item}
+                    {item} {index === 4 && type === "Orders" && "₫"} {index === 3 && type === "Products" && "đ"}
                   </td>
                 ))}
               </tr>

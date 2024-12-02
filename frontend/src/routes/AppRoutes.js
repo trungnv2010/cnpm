@@ -6,6 +6,10 @@ import Admin from "@/pages/Admin";
 import Orders from "@/pages/Admin/orders/Orders";
 import Products from "@/pages/Admin/Products/Products";
 import ListOrder from "../pages/Admin/orders/ListOrder";
+import User from "@/pages/User"
+import ShopPage from "../pages/User/ShopPage/ShopPage";
+import Product from "../pages/User/Product/Product";
+import Cart from "../pages/User/Cart/Cart";
 
 const Home = lazy(() => import("@/pages/HomePage/Home"));
 
@@ -46,7 +50,22 @@ function AppRoutes() {
           
         </Route>
 
+        <Route path="/user">
+          <Route index element={<User/>}/>
+          <Route path="shoppage" element={<ShopPage/>}/>
+          <Route path="product" element={<Product/>}/>
+          <Route path="cart" element={<Cart/>}/>
+        </Route>
+
+        <Route path="/user">
+          <Route index element={<User/>}/>
+          <Route path="shoppage" element={<ShopPage/>}/>
+          <Route path="product" element={<Product/>}/>
+          <Route path="cart" element={<Cart/>}/>
+        </Route>
+
         <Route path="/" element={<Home />} />
+
 
         {dynamicRoutes.map(({ path, Component }, index) => (
           <Route key={index} path={path} element={<Component />} />
