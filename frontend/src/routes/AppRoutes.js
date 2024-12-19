@@ -17,6 +17,7 @@ import VoucherList from "../pages/Admin/voucher/voucher";
 import RatingStatistics from "../pages/Admin/reviews/review";
 import Customer from "../pages/Admin/Customer/customer";
 import Service from "../pages/Admin/Service/service";
+import ReturnOrder from "../pages/Admin/orders/ReturnOrder";
 
 const Home = lazy(() => import("@/pages/HomePage/Home"));
 
@@ -53,6 +54,7 @@ function AppRoutes() {
           <Route index element={<Admin />} /> 
           <Route path="orders/create" element={<Orders />} />
           <Route path="orders" element={<ListOrder />} />
+          <Route path="orders/return" element={<ReturnOrder />} />
           <Route path="products" element={<Products />} />
           <Route path="products/create" element={<AddProduct />} />
           <Route path="products/:id" element={<ProductDetail/>}/>

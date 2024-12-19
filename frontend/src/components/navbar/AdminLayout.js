@@ -181,7 +181,7 @@ const AdminLayout = () => {
                         Danh sách đơn hàng
                       </Link>
                       <Link
-                        to="/admin/orders/completed"
+                        to="/admin/orders/return"
                         className="flex items-center px-4 py-2 text-sm transition-all duration-300 rounded-lg hover:bg-yellow-400"
                       >
                         Khách trả hàng
