@@ -19,7 +19,7 @@ class CheckApiKey
 
         // Kiểm tra API key với giá trị trong file .env
         if (!$apiKey || $apiKey !== config('app.key')) {
-            return response()->json(['error' => 'Unauthorized: API key không hợp lệ'], 401);
+            return response()->json(['error' => 'Unauthorized: API key không hợp lệ', 'code' => '401'], 401);
         }
         return $next($request);
     }

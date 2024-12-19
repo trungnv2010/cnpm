@@ -4,6 +4,7 @@ import {
   useGetDiscountsActiveQuery,
 } from "@/service";
 import { useState, useEffect, useRef } from "react";
+import axios from "@/utils/axios";
 
 const SearchProducts = ({ onStateChange, addressSelected, userId }) => {
   const [searchParam, setSearchParam] = useState("");
@@ -15,6 +16,7 @@ const SearchProducts = ({ onStateChange, addressSelected, userId }) => {
   const [chosenProduct, setChosenProduct] = useState([]);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchParam);
   const [discountSelected, setDiscountSelected] = useState(null);
+  const [dataProducts, setDataProducts] = useState([]);
   const {
     data: dataDiscountsActiveRaw,
     isLoading: isLoadingDiscountsActive,
@@ -36,6 +38,21 @@ const SearchProducts = ({ onStateChange, addressSelected, userId }) => {
       setListProducts(true);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, [searchParam]);
+
+  const fetchProducts = async () => {
+    const response = await axios.get('/products/search', {
+      params: {
+        query: searchParam
+      }
+    });
+    if (response.code === 200) {
+      setDataProducts(response.data);
+    }
+  };  
 
   useEffect(() => {
     if (discountSelected) {
@@ -129,7 +146,10 @@ const SearchProducts = ({ onStateChange, addressSelected, userId }) => {
     }, 0);
   };
 
+  console.log('chosenProduct', chosenProduct);
+
   const calculateShippingFee = (address) => {
+    if (totalMoney == 0) return 0;
     if (!address) return 0;
 
     let baseFee = 30000;
@@ -144,7 +164,7 @@ const SearchProducts = ({ onStateChange, addressSelected, userId }) => {
       return baseFee + 10000;
     }
     return baseFee + 50000;
-    return 0;
+    
   };
 
   const handleChooseDiscountsList = () => {
@@ -156,9 +176,7 @@ const SearchProducts = ({ onStateChange, addressSelected, userId }) => {
   };
 
 
-  const { data: dataProductsRaw } = useGetSearchProductsQuery({
-    query: debouncedSearchTerm,
-  });
+  
   useEffect(() => {
     setTotalMoney(calculateTotal());
   }, [chosenProduct]);
@@ -166,7 +184,8 @@ const SearchProducts = ({ onStateChange, addressSelected, userId }) => {
     handleStateChange();
   }, [totalMoneyAfterDiscount]);
 
-  const dataProducts = dataProductsRaw?.data;
+
+
   return (
     <>
       <div className="w-full col-span-6 p-4 mx-auto bg-white border border-gray-200 rounded-md shadow-sm ">

@@ -1,34 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HeaderAdmin, CustomTable } from "@/components";
 import { useNavigate } from "react-router-dom";
-import { useSearchProductQuery } from "@/service/product.service";
+import axios from "../../../utils/axios";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const navigate = useNavigate();
   const [tabActive, setTabActive] = useState("all");
-  const { data : dataProduct, isLoading, isError } = useSearchProductQuery()
+  const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [perPage, setPerPage] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  const products = dataProduct?.data?.map(product => [
-    product.id,
-    product.name,
-    product.quantity,
-    parseInt(product.price).toFixed(0),
-    new Date(product.created_at).toLocaleDateString('vi-VN')
-  ]);
- 
-    
-const title = ["Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá", "Ngày khởi tạo"]
+  const fetchProducts = async (page) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `/products/getAll?page=${page}&per_page=${perPage}`
+      );
+      if (response.code === 200) {
+        setProducts(
+          response.data.items.map((product) => [
+            product.id,
+            product.name,
+            product.quantity,
+            parseInt(product.price).toFixed(0),
+            new Date(product.created_at).toLocaleDateString("vi-VN"),
+          ])
+        );
+        setTotalPages(response.data.last_page);
+        setCurrentPage(response.data.current_page);
+      }
+    } catch (error) {
+      setIsError(error);
+    } finally {
+      setIsLoading(false);
+      setIsError(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(currentPage);
+  }, [currentPage, perPage]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const title = [
+    "Mã sản phẩm",
+    "Tên sản phẩm",
+    "Số lượng",
+    "Giá",
+    "Ngày khởi tạo",
+  ];
 
   return (
     <div className=" w-full">
       <HeaderAdmin title="Danh sách sản phẩm" />
       <button
-        onClick={() => navigate("/admin/orders/create")}
+        onClick={() => navigate("/admin/products/create")}
         className="bg-blue-500 text-white px-4 py-2 rounded-md mb-5"
       >
         Thêm sản phẩm
       </button>
-      <div className="bg-white h-screen w-full">
+      <div className="bg-white w-full pb-3">
         <div className="flex border-b-2 border-gray-200 p-3 gap-10 ">
           <text
             className={`text-sm cursor-pointer  ${
@@ -38,7 +78,6 @@ const title = ["Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá",
           >
             Tất cả sản phẩm
           </text>
-        
         </div>
         <div className="flex mt-4">
           <div className="relative items-center justify-center ml-3 min-w-[40%]">
@@ -74,9 +113,32 @@ const title = ["Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá",
             </button>
           </div>
         </div>
-        {isLoading ? <div>Loading...</div> : isError ? <div>Error</div> : (
-          <CustomTable title={title} data={products} type='Products'/>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <div>Error</div>
+        ) : (
+          <CustomTable title={title} data={products} type="Products" />
         )}
+        <div className="flex items-center justify-center gap-2 mt-4 mb-2">
+          <button
+            className="border p-1 rounded hover:bg-slate-600 hover:text-white"
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            &lt;
+          </button>
+
+          <span className="mx-4">
+            Trang {currentPage} / {totalPages}
+          </span>
+
+          <button
+            className="border p-1 rounded hover:bg-slate-600 hover:text-white"
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+             &gt;
+          </button>
+        </div>
       </div>
     </div>
   );

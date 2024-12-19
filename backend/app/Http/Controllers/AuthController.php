@@ -11,6 +11,7 @@ use App\Mail\OtpMail;
 use App\Models\Otp;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Cart;
 
 
 class AuthController extends Controller
@@ -29,6 +30,9 @@ class AuthController extends Controller
                 'access_token' => $token,
                 'token_type' => 'Bearer',
                 'role' => $user->role->name,
+                'name' => $user->name,
+                'uid' => $user->id,
+
             ]);
         }
 
@@ -58,7 +62,9 @@ class AuthController extends Controller
             'role_id' => $request->role_id ?? '3',
         ]);
 
-
+        $cart = new Cart();
+        $cart->user_id = $user->id;
+        $cart->save();
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([

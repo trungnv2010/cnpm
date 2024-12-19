@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation  } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useLoginMutation } from "@/service";
 import { regexPatterns } from "./validationPartten";
 import { useDispatch } from "react-redux";
 import { userLogin } from "@/store";
-
-import React from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [login, { data, isSuccess, isError, isLoading, error }] =
@@ -14,6 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+  const [showPassword, setShowPassword] = useState(false);
 
   const params = new URLSearchParams(location.search);
   const redirect = params.get('redirect');
@@ -28,7 +28,6 @@ const Login = () => {
     password: "",
   });
 
-
   const validateRegister = (type, value) => {
     switch (type) {
       case "email":
@@ -42,20 +41,20 @@ const Login = () => {
     login({ email: formLogin.email, password: formLogin.password });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   
   useEffect(() => {
     if (isSuccess && data) {
-      dispatch(userLogin({ access_token: data.access_token, role: data.role }));
+      dispatch(userLogin({ access_token: data.access_token, role: data.role, name: data.name, uid: data.uid }));
       if (redirect) {
         navigate(decodeURIComponent(redirect));
       } else {
         navigate("/" + data.role);
       }
-      
     }
   }, [isSuccess, data]);
-
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,8 +62,6 @@ const Login = () => {
       ...formLogin,
       [name]: value,
     });
-    
-
 
     const message = validateRegister(name, value);
     setErrorMessage({
@@ -111,15 +108,28 @@ const Login = () => {
           >
             Mật khẩu
           </label>
-          <input
-            type="password"
-            onChange={handleChange}
-            id="password"
-            name="password"
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Nhập mật khẩu của bạn"
-            required
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              onChange={handleChange}
+              id="password"
+              name="password"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Nhập mật khẩu của bạn"
+              required
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 flex items-center pr-3 mt-1 text-gray-600 cursor-pointer"
+            >
+              {showPassword ? (
+                <EyeOff className="w-5 h-5" />
+              ) : (
+                <Eye className="w-5 h-5" />
+              )}
+            </button>
+          </div>
         </div>
 
         <button
@@ -159,6 +169,5 @@ const Login = () => {
     </div>
   );
 };
-
 
 export default Login;

@@ -19,6 +19,8 @@ export default function SigninPromoRenderer() {
       >
         Đăng nhập
       </button>
+
+      <div className='underline'>Về trang chủ</div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ export default function UnauthorizedRenderer() {
     const navigate = useNavigate();
 
   const handleGoHome = () => {
-    navigate('/')
+    navigate('/user')
   };
 
   return (

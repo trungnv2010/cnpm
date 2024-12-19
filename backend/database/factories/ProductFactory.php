@@ -25,7 +25,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 10, 500), // Giá sản phẩm từ 10 đến 500
             'quantity' => $this->faker->numberBetween(1, 100), // Số lượng ngẫu nhiên từ 1 đến 100
            'category_id' => Category::inRandomOrder()->first()->id, // tạo category giả nếu chưa có
-            'image_path' => "https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600", // Đường dẫn ảnh ngẫu nhiên
+            'image_path' => "https://i.pinimg.com/236x/ec/7c/5e/ec7c5e3d6faa5a1acf151740a75881fe.jpg", // Đường dẫn ảnh ngẫu nhiên
         ];
     }
 }

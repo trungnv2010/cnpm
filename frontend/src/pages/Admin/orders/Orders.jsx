@@ -2,9 +2,11 @@ import { HeaderAdmin } from "@/components";
 import { useGetSearchCustomerQuery, useCreateOrderMutation } from "@/service";
 import { useState, useEffect, useRef } from "react";
 import SearchProducts from "./SearchProducts";
+import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const choice = "orders";
+  const navigate = useNavigate();
   //tìm kiếm khách hàng
   const [searchParam, setSearchParam] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
@@ -243,7 +245,7 @@ const Orders = () => {
       discount_id: 2,
       order_items: order_items,
     });
-    console.log(response)
+    navigate("/admin/orders")
   };
   
 

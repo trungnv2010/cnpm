@@ -41,9 +41,19 @@ Route::prefix('admin')->middleware(CheckRole::class . ':admin')->group(function 
 });
 
 Route::prefix('products')->group(function () {
+    Route::get('/category/{categoryName}', [ProductController::class, 'getProductsByCategory']);
+    Route::get('/random', [ProductController::class, 'getRandomProducts']);
     Route::get('/search', [ProductController::class, 'searchProduct']);
+    Route::get('/getAll', [ProductController::class, 'getAllProducts']);
+    Route::get('/category', [UserController::class, 'getCategory']);
+    Route::post('/create', [ProductController::class, 'createProduct']);
+    Route::get('/{id}', [ProductController::class, 'getProductById']);
+    Route::post('/update/{id}', [ProductController::class, 'updateProduct']);
+    Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct']);
 });
 
 Route::prefix('discounts')->group(function () {
     Route::get('/active', [DiscountController::class, 'getActiveDiscountsByOrderAndUser']);
+    Route::get('/all', [DiscountController::class, 'getAllDiscountsActive']);
+    Route::post('/update-multiple-status', [DiscountController::class, 'updateMultiDiscount']);
 });

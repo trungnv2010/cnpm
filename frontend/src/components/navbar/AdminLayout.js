@@ -79,7 +79,7 @@ const AdminLayout = () => {
                 <h1 className="text-lg font-semibold">Sản phẩm</h1>
               </Link>
               <Link
-                to="/admin/test"
+                to="/admin/voucher"
                 className="flex items-center px-4 py-2 transition-colors rounded-lg hover:bg-yellow-500"
               >
                 <svg
@@ -96,7 +96,7 @@ const AdminLayout = () => {
                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
                   />
                 </svg>
-                <h1 className="text-lg font-semibold">Test</h1>
+                <h1 className="text-lg font-semibold">Khuyến mại</h1>
               </Link>
             </nav>
           </div>
@@ -210,7 +210,7 @@ const AdminLayout = () => {
                   <h1 className="text-base font-medium">Sản phẩm</h1>
                 </Link>
                 <Link
-                  to="/admin/test"
+                  to="/admin/voucher"
                   className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-yellow-400 hover:translate-x-1"
                 >
                   <svg
@@ -224,11 +224,74 @@ const AdminLayout = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                      d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"
                     />
                   </svg>
-                  <h1 className="text-base font-medium">Test</h1>
+                  <h1 className="text-base font-medium">Khuyến mại</h1>
                 </Link>
+                <Link
+                  to="/admin/reviews"
+                  className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-yellow-400 hover:translate-x-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5 h-5 mr-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"
+                    />
+                  </svg>
+                  <h1 className="text-base font-medium">Thống kê đánh giá</h1>
+                </Link>
+
+                <Link
+                  to="/admin/service"
+                  className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-yellow-400 hover:translate-x-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5 h-5 mr-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"
+                    />
+                  </svg>
+                  <h1 className="text-base font-medium">Yêu cầu trợ giúp</h1>
+                </Link>
+
+                <Link
+                  to="/admin/customer"
+                  className="flex items-center px-4 py-3 transition-all duration-300 rounded-lg hover:bg-yellow-400 hover:translate-x-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5 h-5 mr-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"
+                    />
+                  </svg>
+                  <h1 className="text-base font-medium">Quản lý người dùng</h1>
+                </Link>
+                
               </nav>
             </div>
           </div>

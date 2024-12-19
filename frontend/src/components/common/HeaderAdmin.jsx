@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userLogout } from "@/store";
+import {useUserInfo} from "@/hooks"
 
 const HeaderAdmin = ({ title }) => {
   const dispatch = useDispatch();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const {userInfo} = useUserInfo();
+  console.log(userInfo)
   const handleLogout = () => {
     dispatch(userLogout());
   };
@@ -49,7 +52,7 @@ const HeaderAdmin = ({ title }) => {
           {/**/ }
           <div onClick={()=>setIsProfileOpen(!isProfileOpen)}  className="flex items-center space-x-1 cursor-pointer">
                         <span className="flex items-center justify-center w-8 h-8 text-white bg-pink-500 rounded-full">H</span>
-                        <span className="font-semibold">Huyền</span>
+                        <span className="font-semibold">{userInfo.name}</span>
                         <span>▼</span>
 
                         {isProfileOpen && <div  className="absolute z-10 w-48 py-1 mt-40 origin-top-right bg-white rounded-md shadow-lg right-20 ring-1 ring-black ring-opacity-5 focus:outline-none"

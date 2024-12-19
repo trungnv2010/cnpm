@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,5 +24,11 @@ class UserController extends Controller
         }
 
         return response()->json(['data' => $user, 'code' => '200'], 200);
+    }
+
+    public function getCategory() 
+    {
+        $category = Category::select('id', 'name')->get();
+        return response()->json(['data' => $category, 'code' => '200']);
     }
 }

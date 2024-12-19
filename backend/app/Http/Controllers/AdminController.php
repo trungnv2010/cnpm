@@ -13,7 +13,7 @@ class AdminController extends Controller
 
         if (empty($keyword)) {
             $customers = User::with(['shippingAddresses:id,user_id,address,is_default'])
-                ->where('role_id', 3)
+                ->where('role_id', 2)
                 ->inRandomOrder()
                 ->limit(10)
                 ->get(['id', 'name', 'phone']);

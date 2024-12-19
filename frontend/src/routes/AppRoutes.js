@@ -10,6 +10,13 @@ import User from "@/pages/User"
 import ShopPage from "../pages/User/ShopPage/ShopPage";
 import Product from "../pages/User/Product/Product";
 import Cart from "../pages/User/Cart/Cart";
+import AddProduct from "../pages/Admin/Products/AddProduct";
+import ProductDetail from "../pages/Admin/Products/ProductDetails";
+import UserLayout from "../pages/User/Navbar";
+import VoucherList from "../pages/Admin/voucher/voucher";
+import RatingStatistics from "../pages/Admin/reviews/review";
+import Customer from "../pages/Admin/Customer/customer";
+import Service from "../pages/Admin/Service/service";
 
 const Home = lazy(() => import("@/pages/HomePage/Home"));
 
@@ -47,24 +54,23 @@ function AppRoutes() {
           <Route path="orders/create" element={<Orders />} />
           <Route path="orders" element={<ListOrder />} />
           <Route path="products" element={<Products />} />
-          
+          <Route path="products/create" element={<AddProduct />} />
+          <Route path="products/:id" element={<ProductDetail/>}/>
+          <Route path="voucher" element={<VoucherList/>}/>
+          <Route path="reviews" element={<RatingStatistics/>}/>
+          <Route path="customer" element={<Customer/>}/>
+          <Route path="service" element={<Service/>}/>
         </Route>
 
         <Route path="/user">
           <Route index element={<User/>}/>
-          <Route path="shoppage" element={<ShopPage/>}/>
-          <Route path="product" element={<Product/>}/>
+          <Route path="shoppage/:category" element={<ShopPage/>}/>
+          <Route path="products/:id" element={<Product/>}/>
           <Route path="cart" element={<Cart/>}/>
         </Route>
 
-        <Route path="/user">
-          <Route index element={<User/>}/>
-          <Route path="shoppage" element={<ShopPage/>}/>
-          <Route path="product" element={<Product/>}/>
-          <Route path="cart" element={<Cart/>}/>
-        </Route>
-
-        <Route path="/" element={<Home />} />
+    
+        <Route path="/" element={<User />} />
 
 
         {dynamicRoutes.map(({ path, Component }, index) => (
